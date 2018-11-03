@@ -29,3 +29,8 @@ Există câteva aplicații asemănătoare cu cea creată de noi, acestea fiind [
 
 
 # Mock-ups
+![Step 1](https://github.com/georgianabratucu/webtech-octomusic/blob/master/images/1.jpg)
+
+![Step 2](https://github.com/georgianabratucu/webtech-octomusic/blob/master/images/2.jpg)
+
+![Step 3](https://github.com/georgianabratucu/webtech-octomusic/blob/master/images/3.jpg)
