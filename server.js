@@ -46,7 +46,12 @@ const Accounts = sequelize.define('accounts', {
 const GeoTracks = sequelize.define('geo_tracks', {
     
     name: {type:Sequelize.STRING,
-               allowNull:false},
+           allowNull:false,
+           validate: {
+                    isNotNull: { msg: 'The name is required' }
+         
+            }
+    },
     listeners: Sequelize.INTEGER,
     url: Sequelize.STRING,
     image: Sequelize.STRING,
@@ -54,7 +59,8 @@ const GeoTracks = sequelize.define('geo_tracks', {
             type: Sequelize.INTEGER,
             allowNull: false,
             validate: {
-                isInt: {msg: 'Only numbers accepted'}
+                isInt: {msg: 'Only numbers accepted'},
+                isNotNull: { msg: 'The rank is required' }
             }
         },
     country: Sequelize.STRING
@@ -62,7 +68,11 @@ const GeoTracks = sequelize.define('geo_tracks', {
 const GenreTracks = sequelize.define('genre_tracks', {
     
      name:{ type:Sequelize.STRING,
-           allowNull:false
+           allowNull:false,
+           validate: {
+                    isNotNull: { msg: 'The name is required' }
+         
+            }
         },
     duration: Sequelize.INTEGER,
     url: Sequelize.STRING,
@@ -77,6 +87,21 @@ const GenreTracks = sequelize.define('genre_tracks', {
     rank: Sequelize.INTEGER,
     genre: Sequelize.STRING,
     id_artist:Sequelize.INTEGER
+})
+
+const Artists=sequelize.define('artists',{
+    
+    name: {
+        type:Sequelize.STRING,
+          allowNull:false,
+           validate: {
+                    isNotNull: { msg: 'The name is required' }
+         
+            }
+    },
+    listeners:Sequelize.INTEGER,
+    url:Sequelize.STRING,
+    image:Sequelize.STRING
 })
 
 app.listen(8080);
