@@ -126,7 +126,13 @@ const Preferences=sequelize.define('preferences',{
               allowNull:false
     }
 })
-
+app.get('/createdb',function(request,response){
+    sequelize.sync({force:true}).then(function(){
+        response.status(200).send('tables created')
+    }).catch(function(){
+        response.status(200).send('could not create database')
+    })
+})
 Accounts.hasMany(Preferences,{foreignKey:'id_user'});
 Preferences.belongsTo(Accounts,{foreignKey:'id_user'});
 Artists.hasMany(GeoTracks,{foreignKey:'id_artist'});
@@ -137,4 +143,12 @@ GeoTracks.belongsTo(Artists,{foreignKey:'id_artist'});
 app.use(express.json());
 app.use(express.urlencoded());
 
+
+app.post('/account',function(request,response){
+    Accounts.create(request.body).then(function(account){
+        response.status(201).json(account);
+    }).catch(function(error){
+        response.status(401).send(error.message);
+    })
+})
 app.listen(8080);
