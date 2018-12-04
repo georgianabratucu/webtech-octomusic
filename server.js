@@ -29,6 +29,21 @@ const Accounts = sequelize.define('accounts', {
     birth_date:Sequelize.DATE
 })
 
-
+const GeoTracks = sequelize.define('geo_tracks', {
+    
+    name: {type:Sequelize.STRING,
+               allowNull:false},
+    listeners: Sequelize.INTEGER,
+    url: Sequelize.STRING,
+    image: Sequelize.STRING,
+    rank: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            validate: {
+                isInt: true
+            }
+        },
+    country: Sequelize.STRING
+})
 
 app.listen(8080);
