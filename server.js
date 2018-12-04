@@ -45,5 +45,24 @@ const GeoTracks = sequelize.define('geo_tracks', {
         },
     country: Sequelize.STRING
 })
+const GenreTracks = sequelize.define('genre_tracks', {
+    
+     name:{ type:Sequelize.STRING,
+           allowNull:false
+        },
+    duration: Sequelize.INTEGER,
+    url: Sequelize.STRING,
+    image: Sequelize.STRING,
+    rank: {type:Sequelize.INTEGER,
+           allowNull:false,
+           validate: {
+                isInt: true,
+                msg:'Only numbers accepted'
+            }
+    },
+    rank: Sequelize.INTEGER,
+    genre: Sequelize.STRING,
+    id_artist:Sequelize.INTEGER
+})
 
 app.listen(8080);
