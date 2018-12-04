@@ -22,12 +22,8 @@ const Accounts = sequelize.define('accounts', {
                 unique:{
                     msg:'This username already exists'
                 },
-<<<<<<< HEAD
-               allowNull:false
-=======
                  allowNull: { args: false, msg: 'You must enter a name.' }
                 
->>>>>>> ee0f30d20eaf40b74f6511c872413fde38165ab3
         },
     password: {
                 type:Sequelize.STRING,
