@@ -22,12 +22,15 @@ const Accounts = sequelize.define('accounts', {
                 unique:{
                     msg:'This username already exists'
                 },
-                 allowNull: { args: false, msg: 'You must enter a name.' }
-                
+                allowNull:false,
+                validate: {
+                    isNotNull: { msg: 'The username is required' }
+         
+            }
         },
     password: {
                 type:Sequelize.STRING,
-                allowNull: { args: false, msg: 'You must enter a password.' },
+                allowNull:false,
                 validate:{
                     len:{
                         args:[5,15],
@@ -37,7 +40,6 @@ const Accounts = sequelize.define('accounts', {
     },
     email: { 
              type:Sequelize.STRING,
-               allowNull: { args: false, msg: 'You must enter an email.' },
              validate: {
                 isEmail:{
                     msg: 'Email address is not valid'}}
@@ -48,33 +50,40 @@ const Accounts = sequelize.define('accounts', {
 const GeoTracks = sequelize.define('geo_tracks', {
     
     name: {type:Sequelize.STRING,
-           allowNull: { args: false, msg: 'You must enter a name.' },
+           allowNull:false,
+           validate: {
+                    isNotNull: { msg: 'The name is required' }
+         
+            }
     },
     listeners: Sequelize.INTEGER,
     url: Sequelize.STRING,
     image: Sequelize.STRING,
     rank: {
             type: Sequelize.INTEGER,
-            allowNull: { args: false, msg: 'You must enter the rank.' },
+            allowNull: false,
             validate: {
-                isInt: {msg: 'Only numbers accepted'}
-                }
-            },
+                isInt: {msg: 'Only numbers accepted'},
+                isNotNull: { msg: 'The rank is required' }
+            }
+        },
     country: Sequelize.STRING,
     id_artist:Sequelize.INTEGER
 })
-
 const GenreTracks = sequelize.define('genre_tracks', {
     
      name:{ type:Sequelize.STRING,
-             allowNull: { args: false, msg: 'You must enter a name.' }
-          
+           allowNull:false,
+           validate: {
+                    isNotNull: { msg: 'The name is required' }
+         
+            }
         },
     duration: Sequelize.INTEGER,
     url: Sequelize.STRING,
     image: Sequelize.STRING,
     rank: {type:Sequelize.INTEGER,
-           allowNull: { args: false, msg: 'You must enter the rank.' },
+           allowNull:false,
            validate: {
                 isInt: true,
                 msg:'Only numbers accepted'
@@ -128,7 +137,6 @@ GeoTracks.belongsTo(Artists,{foreignKey:'id_artist'});
 
 app.use(express.json());
 app.use(express.urlencoded());
-
 
 app.post('/account',function(request,response){
     Accounts.create(request.body).then(function(account){
