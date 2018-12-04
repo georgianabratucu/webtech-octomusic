@@ -22,6 +22,7 @@ const Accounts = sequelize.define('accounts', {
                 unique:{
                     msg:'This username already exists'
                 },
+                allowNull:false,
                 validate: {
                     isNotNull: { msg: 'The username is required' }
          
