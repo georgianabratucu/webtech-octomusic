@@ -66,7 +66,8 @@ const GeoTracks = sequelize.define('geo_tracks', {
                 isNotNull: { msg: 'The rank is required' }
             }
         },
-    country: Sequelize.STRING
+    country: Sequelize.STRING,
+    id_artist:Sequelize.INTEGER
 })
 const GenreTracks = sequelize.define('genre_tracks', {
     
@@ -125,5 +126,15 @@ const Preferences=sequelize.define('preferences',{
               allowNull:false
     }
 })
+
+Accounts.hasMany(Preferences,{foreignKey:'id_user'});
+Preferences.belongsTo(Accounts,{foreignKey:'id_user'});
+Artists.hasMany(GeoTracks,{foreignKey:'id_artist'});
+Artists.hasMany(GenreTracks,{foreignKey:'id_artist'});
+GenreTracks.belongsTo(Artists,{foreignKey:'id_artist'});
+GeoTracks.belongsTo(Artists,{foreignKey:'id_artist'});
+
+app.use(express.json());
+app.use(express.urlencoded());
 
 app.listen(8080);
