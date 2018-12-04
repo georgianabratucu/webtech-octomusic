@@ -98,11 +98,7 @@ const Artists=sequelize.define('artists',{
     
     name: {
         type:Sequelize.STRING,
-          allowNull:false,
-           validate: {
-                    isNotNull: { msg: 'The name is required' }
-         
-            }
+        allowNull: { args: false, msg: 'You must enter a name.' }
     },
     listeners:Sequelize.INTEGER,
     url:Sequelize.STRING,
@@ -111,9 +107,7 @@ const Artists=sequelize.define('artists',{
 const Preferences=sequelize.define('preferences',{
     track_name:{
                 type:Sequelize.STRING,
-                validate: {
-                    isNotNull: { msg: "The track's name is required" }
-            }
+                allowNull: { args: false, msg: 'You must enter a name.' }
     },
     mark:{
            type:Sequelize.INTEGER,
@@ -124,7 +118,7 @@ const Preferences=sequelize.define('preferences',{
     },
     id_user:{
               type:Sequelize.INTEGER,
-              allowNull:false
+                allowNull: { args: false, msg: 'You must enter a user id.' }
     }
 })
 app.get('/createdb',function(request,response){
@@ -143,7 +137,6 @@ GeoTracks.belongsTo(Artists,{foreignKey:'id_artist'});
 
 app.use(express.json());
 app.use(express.urlencoded());
-
 
 app.post('/account',function(request,response){
     Accounts.create(request.body).then(function(account){
