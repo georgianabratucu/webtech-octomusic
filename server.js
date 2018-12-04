@@ -106,5 +106,24 @@ const Artists=sequelize.define('artists',{
     url:Sequelize.STRING,
     image:Sequelize.STRING
 })
+const Preferences=sequelize.define('preferences',{
+    track_name:{
+                type:Sequelize.STRING,
+                validate: {
+                    isNotNull: { msg: "The track's name is required" }
+            }
+    },
+    mark:{
+           type:Sequelize.INTEGER,
+            validate: {
+                isInt: true,
+                msg:'Only numbers accepted'
+            }
+    },
+    id_user:{
+              type:Sequelize.INTEGER,
+              allowNull:false
+    }
+})
 
 app.listen(8080);
