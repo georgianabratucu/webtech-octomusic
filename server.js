@@ -22,11 +22,16 @@ const Accounts = sequelize.define('accounts', {
                 unique:{
                     msg:'This username already exists'
                 },
+<<<<<<< HEAD
                allowNull:false
+=======
+                 allowNull: { args: false, msg: 'You must enter a name.' }
+                
+>>>>>>> ee0f30d20eaf40b74f6511c872413fde38165ab3
         },
     password: {
                 type:Sequelize.STRING,
-                allowNull:false,
+                allowNull: { args: false, msg: 'You must enter a password.' },
                 validate:{
                     len:{
                         args:[5,15],
@@ -36,6 +41,7 @@ const Accounts = sequelize.define('accounts', {
     },
     email: { 
              type:Sequelize.STRING,
+               allowNull: { args: false, msg: 'You must enter an email.' },
              validate: {
                 isEmail:{
                     msg: 'Email address is not valid'}}
@@ -46,40 +52,33 @@ const Accounts = sequelize.define('accounts', {
 const GeoTracks = sequelize.define('geo_tracks', {
     
     name: {type:Sequelize.STRING,
-           allowNull:false,
-           validate: {
-                    isNotNull: { msg: 'The name is required' }
-         
-            }
+           allowNull: { args: false, msg: 'You must enter a name.' },
     },
     listeners: Sequelize.INTEGER,
     url: Sequelize.STRING,
     image: Sequelize.STRING,
     rank: {
             type: Sequelize.INTEGER,
-            allowNull: false,
+            allowNull: { args: false, msg: 'You must enter the rank.' },
             validate: {
-                isInt: {msg: 'Only numbers accepted'},
-                isNotNull: { msg: 'The rank is required' }
-            }
-        },
+                isInt: {msg: 'Only numbers accepted'}
+                }
+            },
     country: Sequelize.STRING,
     id_artist:Sequelize.INTEGER
 })
+
 const GenreTracks = sequelize.define('genre_tracks', {
     
      name:{ type:Sequelize.STRING,
-           allowNull:false,
-           validate: {
-                    isNotNull: { msg: 'The name is required' }
-         
-            }
+             allowNull: { args: false, msg: 'You must enter a name.' }
+          
         },
     duration: Sequelize.INTEGER,
     url: Sequelize.STRING,
     image: Sequelize.STRING,
     rank: {type:Sequelize.INTEGER,
-           allowNull:false,
+           allowNull: { args: false, msg: 'You must enter the rank.' },
            validate: {
                 isInt: true,
                 msg:'Only numbers accepted'
@@ -94,11 +93,7 @@ const Artists=sequelize.define('artists',{
     
     name: {
         type:Sequelize.STRING,
-          allowNull:false,
-           validate: {
-                    isNotNull: { msg: 'The name is required' }
-         
-            }
+        allowNull: { args: false, msg: 'You must enter a name.' }
     },
     listeners:Sequelize.INTEGER,
     url:Sequelize.STRING,
@@ -107,9 +102,7 @@ const Artists=sequelize.define('artists',{
 const Preferences=sequelize.define('preferences',{
     track_name:{
                 type:Sequelize.STRING,
-                validate: {
-                    isNotNull: { msg: "The track's name is required" }
-            }
+                allowNull: { args: false, msg: 'You must enter a name.' }
     },
     mark:{
            type:Sequelize.INTEGER,
@@ -120,7 +113,7 @@ const Preferences=sequelize.define('preferences',{
     },
     id_user:{
               type:Sequelize.INTEGER,
-              allowNull:false
+                allowNull: { args: false, msg: 'You must enter a user id.' }
     }
 })
 app.get('/createdb',function(request,response){
