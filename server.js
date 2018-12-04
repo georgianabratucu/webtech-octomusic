@@ -40,7 +40,7 @@ const GeoTracks = sequelize.define('geo_tracks', {
             type: Sequelize.INTEGER,
             allowNull: false,
             validate: {
-                isInt: true
+                isInt: {msg: 'Only numbers accepted'}
             }
         },
     country: Sequelize.STRING
