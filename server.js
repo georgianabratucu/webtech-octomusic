@@ -22,10 +22,7 @@ const Accounts = sequelize.define('accounts', {
                 unique:{
                     msg:'This username already exists'
                 },
-                validate: {
-                    isNotNull: { msg: 'The username is required' }
-         
-            }
+               allowNull:false
         },
     password: {
                 type:Sequelize.STRING,
