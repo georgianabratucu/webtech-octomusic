@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/georgianabratucu/webtech-octomusic/issues"
   },
-  "homepage": "https://github.com/georgianabratucu/webtech-octomusic#readme"
+  "homepage": "https://github.com/georgianabratucu/webtech-octomusic#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mysql2": "^1.6.4",
+    "sequelize": "^4.41.2"
+  }
 }
