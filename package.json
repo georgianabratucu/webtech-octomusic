@@ -1,0 +1,19 @@
+{
+  "name": "webtech-octomusic",
+  "version": "1.0.0",
+  "description": "proiect tehnologii web",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/georgianabratucu/webtech-octomusic.git"
+  },
+  "author": "Brailoiu Georgiana,Bratucu Georgiana,Bratucu Iuliana",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/georgianabratucu/webtech-octomusic/issues"
+  },
+  "homepage": "https://github.com/georgianabratucu/webtech-octomusic#readme"
+}
