@@ -305,6 +305,24 @@ app.post('/geoTracks/:country',(request,response)=>{
     
    
 })
+
+app.put('/geoTracks/:name', function(request, response) {
+    GeoTracks.findOne({
+  where: {name: request.params.name}
+}).then(function(geo_tracks) {
+        if(geo_tracks) {
+            geo_tracks.update(request.body).then(function(geo_tracks){
+                response.status(201).send(geo_tracks)
+            }).catch(function(error) {
+                response.status(200).send(error)
+            })
+        } else {
+            response.status(404).send('Not found')
+        }
+    })
+})
+
+
 app.get("/geoTrackList",async function(request,response){
     try{
    let geo_tracks= await GeoTracks.findAll();
@@ -313,6 +331,23 @@ app.get("/geoTrackList",async function(request,response){
         response.status(500).send(error.message);
     }
 })
+
+app.put('/genreTracks/:name', function(request, response) {
+    GenreTracks.findOne({
+  where: {name: request.params.name}
+}).then(function(genre_tracks) {
+        if(genre_tracks) {
+            genre_tracks.update(request.body).then(function(genre_tracks){
+                response.status(201).send(genre_tracks)
+            }).catch(function(error) {
+                response.status(200).send(error)
+            })
+        } else {
+            response.status(404).send('Not found')
+        }
+    })
+})
+
 
 app.post('/genreTracks/:genre',(request,response)=>{
     try{
