@@ -332,6 +332,35 @@ app.get("/geoTrackList",async function(request,response){
     }
 })
 
+app.delete('/geoTracks/:name', function(request, response) {
+    GeoTracks.findOne({
+  where: {name: request.params.name}
+}).then(function(geo_tracks) {
+        if(geo_tracks) {
+            geo_tracks.destroy().then(function(){
+                response.status(204).send()
+            })
+        } else {
+            response.status(404).send('Not found')
+        }
+    })
+})
+
+app.delete('/genreTracks/:name', function(request, response) {
+    GenreTracks.findOne({
+  where: {name: request.params.name}
+}).then(function(genre_tracks) {
+        if(genre_tracks) {
+            genre_tracks.destroy().then(function(){
+                response.status(204).send()
+            })
+        } else {
+            response.status(404).send('Not found')
+        }
+    })
+})
+
+
 app.put('/genreTracks/:name', function(request, response) {
     GenreTracks.findOne({
   where: {name: request.params.name}
