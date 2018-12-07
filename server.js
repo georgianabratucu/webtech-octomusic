@@ -170,6 +170,22 @@ app.put('/updateAccount/:username',async function(request,response){
   
 })
 
+app.delete("/account/:username", async function(request,response){
+    try{
+      let account= await Accounts.findOne({where:{username:request.params.username}});
+      if(account){
+          await account.destroy();
+          response.status(200).send("The account was deleted");
+      }
+      else
+      {
+          response.status(404).send("The account was not found");
+      }
+    } catch(error){
+        response.status(500).send(error.message);
+    }
+})
+
 app.post('/preferences',function(request,response){
     Preferences.create(request.body).then((p)=>{
         response.status(201).json(p)
