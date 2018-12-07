@@ -315,7 +315,7 @@ app.get("/geoTrackList",async function(request,response){
 })
 
 app.post('/genreTracks/:genre',(request,response)=>{
-    
+    try{
     let url='https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag='+request.params.genre+'&api_key=3516736128cc24d429fa4a04d2ef2d7b&format=json&limit=20'
     GenreTracks.findAll().then(function (track){
         if(track){
@@ -352,6 +352,9 @@ app.post('/genreTracks/:genre',(request,response)=>{
     response.status(200).send('The data has been successfully inserted into the table');
      
     })
+    }catch(error){
+        response.status(500).send(error.message);
+    }
     
 })
 app.get("/genreTrackList",async function(request,response){
