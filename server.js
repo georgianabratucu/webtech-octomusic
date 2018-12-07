@@ -332,6 +332,23 @@ app.get("/geoTrackList",async function(request,response){
     }
 })
 
+app.put('/genreTracks/:name', function(request, response) {
+    GenreTracks.findOne({
+  where: {name: request.params.name}
+}).then(function(genre_tracks) {
+        if(genre_tracks) {
+            genre_tracks.update(request.body).then(function(genre_tracks){
+                response.status(201).send(genre_tracks)
+            }).catch(function(error) {
+                response.status(200).send(error)
+            })
+        } else {
+            response.status(404).send('Not found')
+        }
+    })
+})
+
+
 app.post('/genreTracks/:genre',(request,response)=>{
     
     let url='https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag='+request.params.genre+'&api_key=3516736128cc24d429fa4a04d2ef2d7b&format=json&limit=20'
