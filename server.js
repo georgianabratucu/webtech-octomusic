@@ -170,6 +170,22 @@ app.put('/updateAccount/:username',async function(request,response){
   
 })
 
+app.delete("/account/:username", async function(request,response){
+    try{
+      let account= await Accounts.findOne({where:{username:request.params.username}});
+      if(account){
+          await account.destroy();
+          response.status(200).send("The account was deleted");
+      }
+      else
+      {
+          response.status(404).send("The account was not found");
+      }
+    } catch(error){
+        response.status(500).send(error.message);
+    }
+})
+
 app.post('/preferences',function(request,response){
     Preferences.create(request.body).then((p)=>{
         response.status(201).json(p)
@@ -208,6 +224,31 @@ app.put('/updatePreference/:track_name/:id_user',async function(request, respons
         response.status(500).send(error.message)
     }
     
+})
+
+app.delete('/deletePreference/:id_user/:track_name',async(request,response)=>{
+    try{
+        let preference=await Preferences.findOne(
+            { 
+              where:{
+                  
+                  id_user:request.params.id_user,
+                  track_name:request.params.track_name}
+                
+            })
+        if(preference){
+            
+            await preference.destroy()
+            response.status(200).send('The prefernce has been deleted.')
+            
+        }else{
+            
+            response.status(404).send("Preference not found.")
+        }
+    }catch(error){
+        
+        response.status(500).send(error.message)
+    }
 })
 
 //insert into artists from last.fm api
