@@ -38,7 +38,7 @@ const Accounts = sequelize.define('accounts', {
     },
     email: { 
              type:Sequelize.STRING,
-               allowNull: { args: false, msg: 'You must enter an email.' },
+               allowNull: false,
              validate: {
                 isEmail:{
                     msg: 'Email address is not valid'}}
@@ -49,14 +49,14 @@ const Accounts = sequelize.define('accounts', {
 const GeoTracks = sequelize.define('geo_tracks', {
     
     name: {type:Sequelize.STRING,
-           allowNull: { args: false, msg: 'You must enter a name.' },
+           allowNull: false,
     },
     listeners: Sequelize.INTEGER,
     url: Sequelize.STRING,
     image: Sequelize.STRING,
     rank: {
             type: Sequelize.INTEGER,
-            allowNull: { args: false, msg: 'You must enter the rank.' },
+            allowNull: false,
             validate: {
                 isInt: {msg: 'Only numbers accepted'}
                 }
@@ -68,14 +68,14 @@ const GeoTracks = sequelize.define('geo_tracks', {
 const GenreTracks = sequelize.define('genre_tracks', {
     
      name:{ type:Sequelize.STRING,
-             allowNull: { args: false, msg: 'You must enter a name.' }
+             allowNull: false
           
         },
     duration: Sequelize.INTEGER,
     url: Sequelize.STRING,
     image: Sequelize.STRING,
     rank: {type:Sequelize.INTEGER,
-           allowNull: { args: false, msg: 'You must enter the rank.' },
+           allowNull: false,
            validate: {
                 isInt: true,
                 msg:'Only numbers accepted'
@@ -90,7 +90,7 @@ const Artists=sequelize.define('artists',{
     
     name: {
         type:Sequelize.STRING,
-        allowNull: { args: false, msg: 'You must enter a name.' }
+        allowNull: false
     },
     listeners:Sequelize.INTEGER,
     url:Sequelize.STRING,
@@ -99,7 +99,7 @@ const Artists=sequelize.define('artists',{
 const Preferences=sequelize.define('preferences',{
     track_name:{
                 type:Sequelize.STRING,
-                allowNull: { args: false, msg: 'You must enter a name.' }
+                allowNull: false
     },
     mark:{
            type:Sequelize.INTEGER,
@@ -110,7 +110,7 @@ const Preferences=sequelize.define('preferences',{
     },
     id_user:{
               type:Sequelize.INTEGER,
-                allowNull: { args: false, msg: 'You must enter a user id.' }
+                allowNull: false
     }
 })
 app.get('/createdb',function(request,response){
