@@ -246,18 +246,15 @@ app.post('/preferences',(request,response)=>{
     });
 });
 
-app.get('/preferenceList',async (request,response)=>{
+app.get('/preferenceList',async function(request,response){
     try{
    let preferences= await Preferences.findAll();
-   if(preferences.length>0){
         response.status(200).json(preferences);
-     }else{
-         response.status(204).send("Preference list is empty");
-     }
     }catch(error){
         response.status(500).send(error.message);
     }
 });
+
 app.put('/updatePreference/:track_name/:id_user',async function(request, response) {
     try{
         let preference = await Preferences.findOne(
@@ -339,14 +336,7 @@ app.get("/artistList", async function(request,response){
     try
     { 
         let artists= await Artists.findAll();
-        if(artists.length>0){
-            
-             response.status(200).json(artists);
-        } else {
-            
-            response.status(204).send("The artist list is empty!");
-        }
-       
+        response.status(200).json(artists);
     }
     catch(error)
     {
@@ -426,15 +416,11 @@ app.put('/geoTracks/:name', function(request, response) {
 
 app.get("/geoTrackList",async function(request,response){
     try{
-   let geo_tracks= await GeoTracks.findAll();
-   if(geo_tracks.length>0){
-       
-      response.status(200).json(geo_tracks);
-   }else{
-       response.status(204).send('GeoTrack list is empty');
-   }
+         let geo_tracks= await GeoTracks.findAll();
+         response.status(200).json(geo_tracks);
+   
     }catch(error){
-        response.status(500).send(error.message);
+         response.status(500).send(error.message);
     }
 });
 
@@ -525,16 +511,11 @@ app.post('/genreTracks/:genre',(request,response)=>{
 
 app.get("/genreTrackList",async function(request,response){
     try {
-        var genre_tracks= await GenreTracks.findAll();
-        if(genre_tracks.length>0){
-            
+            var genre_tracks= await GenreTracks.findAll();
             response.status(200).json(genre_tracks);
-        } else {
-            response.status(204).send('The GenreTracksList is empty!');
-        }
-    }
+      }
     catch(error){
-        response.status(500).send(error.message);
+            response.status(500).send(error.message);
     }
 });
 
