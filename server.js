@@ -385,21 +385,36 @@ app.post('/geoTracks/:country',(request,response)=>{
     });
 });
 
-app.put('/geoTracks/:name', function(request, response) {
-    GeoTracks.findOne({
-  where: {name: request.params.name}
-}).then(function(geo_tracks) {
-        if(geo_tracks) {
-            geo_tracks.update(request.body).then(function(geo_tracks){
-                response.status(201).send(geo_tracks)
-            }).catch(function(error) {
-                response.status(200).send(error)
-            })
-        } else {
-            response.status(404).send('Not found')
+app.put('/updateGeoTracks/:name',async function(request,response){
+    
+    try {
+        let geoTracks=await GeoTracks.findOne(
+            {
+                where:
+                {
+                    name:request.params.name
+                    
+                }
+                
+            });
+            
+        if(geoTracks){
+            
+            await geoTracks.update(request.body);
+            response.status(200).json(geoTracks);
         }
-    })
-})
+        else {
+            
+            response.status(404).send("The name was not found");
+        }
+        
+    } catch(error){
+        
+        response.status(500).send(error.message);
+    }
+  
+});
+
 
 
 app.get("/geoTrackList",async function(request,response){
@@ -441,21 +456,36 @@ app.delete('/genreTracks/:name', function(request, response) {
 })
 
 
-app.put('/genreTracks/:name', function(request, response) {
-    GenreTracks.findOne({
-  where: {name: request.params.name}
-}).then(function(genre_tracks) {
-        if(genre_tracks) {
-            genre_tracks.update(request.body).then(function(genre_tracks){
-                response.status(201).send(genre_tracks)
-            }).catch(function(error) {
-                response.status(200).send(error)
-            })
-        } else {
-            response.status(404).send('Not found')
+app.put('/updateGenreTracks/:name',async function(request,response){
+    
+    try {
+        let genreTracks=await GenreTracks.findOne(
+            {
+                where:
+                {
+                    name:request.params.name
+                    
+                }
+                
+            });
+            
+        if(genreTracks){
+            
+            await genreTracks.update(request.body);
+            response.status(200).json(genreTracks);
         }
-    })
-})
+        else {
+            
+            response.status(404).send("The name was not found");
+        }
+        
+    } catch(error){
+        
+        response.status(500).send(error.message);
+    }
+  
+});
+
 
 
 app.post('/genreTracks/:genre',(request,response)=>{
