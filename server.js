@@ -148,14 +148,8 @@ app.get('/userPreferences/:username', async(request,response)=>{
             
         if(account){
             let preferences=await account.getPreferences();
-            if(preferences.length>0){
-                
-                   response.status(200).json(preferences);
+            response.status(200).json(preferences);
                    
-            } else {
-                
-                response.status(204).send("The preference list for this account is empty!");
-            }
         } else {
             
             response.status(404).send("The account was not found!");
@@ -171,14 +165,8 @@ app.get('/accountList',async(request,response)=>{
     try {
         
         let accounts= await Accounts.findAll();
-        if(accounts.length>0){
-            
-            response.status(200).json(accounts);
-            
-        } else {
-            
-            response.status(204).send("The Accounts table is empty!");
-        }
+      
+      response.status(200).json(accounts);
         
     } catch(error) {
         response.status(500).send(error.message);
