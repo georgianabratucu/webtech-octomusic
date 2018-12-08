@@ -1,19 +1,29 @@
-const express=require("express")
-const Sequelize=require("sequelize")
-const axios=require("axios")
+const express=require("express");
+const Sequelize=require("sequelize");
+const axios=require("axios");
 
-const app=express()
-app.use("/",express.static('static'))
+const app=express();
+
+app.use("/",express.static('static'));
+
 const sequelize = new Sequelize('Music', 'root', '', {
     dialect:'mysql',
     host:'localhost'
-})
+});
 
-sequelize.authenticate().then(function(){
-    console.log("success");
+sequelize.authenticate().then(authenticate=>{
+    console.log('You have successfully connected to the database.\n' + 'Good luck.');
 }).catch(function(){
-    console.log("there was an error connecting to db");
-})
+    console.log('Unfortunately, there was an error connecting to the database.\n'+'Keep trying.');
+});
+
+app.get('/creatingTables',(request,response)=>{
+    sequelize.sync({force:true}).then(success=>{
+        response.status(201).send('The tables has been successfully created.');
+    }).catch(error=>{
+        response.status(500).send('There was a problem creating the tables.');
+    });
+});
 
 //create tables
 const Accounts = sequelize.define('accounts', {
@@ -30,12 +40,12 @@ const Accounts = sequelize.define('accounts', {
     password: {
                 type:Sequelize.STRING,
                 allowNull: false,
-               validate:{
+                validate:{
                       len:{
                         args:[5,15],
                         msg:'Password must have between 5 and 15 characters'
                          },
-                    notEmpty:true,
+                      notEmpty:true,
                }
     },
     email: { 
@@ -46,75 +56,67 @@ const Accounts = sequelize.define('accounts', {
                     msg: 'Email address is not valid'}}
             },
     birth_date:Sequelize.DATE
-})
+});
 
 const GeoTracks = sequelize.define('geo_tracks', {
     
     name: {
-           type:Sequelize.STRING,
-           allowNull: false,
-    },
+             type:Sequelize.STRING,
+             allowNull: false,
+      },
     listeners: Sequelize.INTEGER,
     url: Sequelize.STRING,
     image: Sequelize.STRING,
     rank: {
-            type: Sequelize.INTEGER,
-            allowNull:false
-            },
+             type: Sequelize.INTEGER,
+             allowNull:false
+      },
     country: Sequelize.STRING,
     id_artist:Sequelize.INTEGER
-})
+});
 
 const GenreTracks = sequelize.define('genre_tracks', {
     
      name:{ 
              type:Sequelize.STRING,
              allowNull: false
-          
         },
-    duration: Sequelize.INTEGER,
-    url: Sequelize.STRING,
-    image: Sequelize.STRING,
-    rank: {type:Sequelize.INTEGER,
-           allowNull:false,
-         
-    },
-    rank: Sequelize.INTEGER,
-    genre: Sequelize.STRING,
-    id_artist:Sequelize.INTEGER
-})
+     duration: Sequelize.INTEGER,
+     url: Sequelize.STRING,
+     image: Sequelize.STRING,
+     rank: {
+             type:Sequelize.INTEGER,
+             allowNull:false,
+        },
+     genre: Sequelize.STRING,
+     id_artist:Sequelize.INTEGER
+});
 
 const Artists=sequelize.define('artists',{
     
-    name: {
-        type:Sequelize.STRING,
-        allowNull:false
-    },
-    listeners:Sequelize.INTEGER,
-    url:Sequelize.STRING,
-    image:Sequelize.STRING
-})
+     name: {
+             type:Sequelize.STRING,
+             allowNull:false
+       },
+     listeners:Sequelize.INTEGER,
+     url:Sequelize.STRING,
+     image:Sequelize.STRING
+});
+
 const Preferences=sequelize.define('preferences',{
-    track_name:{
-                type:Sequelize.STRING,
-                allowNull: false
-    },
-    mark:{
-           type:Sequelize.INTEGER,
-        
-    },
-    id_user:{
-              type:Sequelize.INTEGER,
+     track_name:{
+                  type:Sequelize.STRING,
+                  allowNull: false
+      },
+     mark:{
+             type:Sequelize.INTEGER,
+      },
+     id_user:{
+                type:Sequelize.INTEGER,
                 allowNull: false
     }
-})
-app.get('/createdb',function(request,response){
-    sequelize.sync({force:true}).then(function(){
-        response.status(200).send('tables created')
-    }).catch(function(){
-        response.status(200).send('could not create database')
-    })
-})
+});
+
 Accounts.hasMany(Preferences,{foreignKey:'id_user'});
 Preferences.belongsTo(Accounts,{foreignKey:'id_user'});
 Artists.hasMany(GeoTracks,{foreignKey:'id_artist'});
@@ -132,8 +134,8 @@ app.post('/accounts',(request,response)=>{
         response.status(201).json(account);
     }).catch((error)=>{
         response.status(500).send(error.message);
-    })
-})
+    });
+});
 
 app.get('/userPreferences/:username', async(request,response)=>{
     try{
@@ -149,11 +151,13 @@ app.get('/userPreferences/:username', async(request,response)=>{
             if(preferences.length>0){
                 
                    response.status(200).json(preferences);
+                   
             } else {
                 
                 response.status(204).send("The preference list for this account is empty!");
             }
         } else {
+            
             response.status(404).send("The account was not found!");
         }
     } catch(error){
@@ -161,7 +165,7 @@ app.get('/userPreferences/:username', async(request,response)=>{
         response.status(500).send(error.message);
     }
     
-})
+});
 
 app.get('/accountList',async(request,response)=>{
     try {
@@ -179,7 +183,7 @@ app.get('/accountList',async(request,response)=>{
     } catch(error) {
         response.status(500).send(error.message);
     }
-})
+});
 
 app.put('/updateAccount/:username',async function(request,response){
     
@@ -209,7 +213,7 @@ app.put('/updateAccount/:username',async function(request,response){
         response.status(500).send(error.message);
     }
   
-})
+});
 
 app.delete("/account/:username", async function(request,response){
     try{
@@ -232,24 +236,28 @@ app.delete("/account/:username", async function(request,response){
     } catch(error){
         response.status(500).send(error.message);
     }
-})
+});
 
-app.post('/preferences',function(request,response){
-    Preferences.create(request.body).then((p)=>{
-        response.status(201).json(p)
+app.post('/preferences',(request,response)=>{
+    Preferences.create(request.body).then(preference=>{
+        response.status(201).json(preference);
     }).catch(error=>{
-        response.status(400).send(error.message)
-    })
-})
+        response.status(500).send(error.message);
+    });
+});
 
-app.get('/preferenceList',async function(request,response){
+app.get('/preferenceList',async (request,response)=>{
     try{
-   let preferences= await Preferences.findAll()
-        response.status(200).json(preferences)
+   let preferences= await Preferences.findAll();
+   if(preferences.length>0){
+        response.status(200).json(preferences);
+     }else{
+         response.status(204).send("Preference list is empty");
+     }
     }catch(error){
-        response.status(500).send(error.message)
+        response.status(500).send(error.message);
     }
-})
+});
 app.put('/updatePreference/:track_name/:id_user',async function(request, response) {
     try{
         let preference = await Preferences.findOne(
@@ -257,22 +265,22 @@ app.put('/updatePreference/:track_name/:id_user',async function(request, respons
                 where:{track_name:request.params.track_name,
                 id_user:request.params.id_user}
                 
-            })
+            });
         if(preference){
             
-            await preference.update(request.body)
-            response.status(200).send("The preference has been updated.")
+            await preference.update(request.body);
+            response.status(201).send("The preference has been updated.");
             
         }else{
             
-            response.status(404).send("Preference not found.")
+            response.status(404).send("Preference not found.");
         }
         
     }catch(error){
-        response.status(500).send(error.message)
+        response.status(500).send(error.message);
     }
     
-})
+});
 
 app.delete('/deletePreference/:id_user/:track_name',async(request,response)=>{
     try{
@@ -283,21 +291,21 @@ app.delete('/deletePreference/:id_user/:track_name',async(request,response)=>{
                   id_user:request.params.id_user,
                   track_name:request.params.track_name}
                 
-            })
+            });
         if(preference){
             
-            await preference.destroy()
-            response.status(200).send('The prefernce has been deleted.')
+            await preference.destroy();
+            response.status(200).send('The prefernce has been deleted.');
             
         }else{
             
-            response.status(404).send("Preference not found.")
+            response.status(404).send("Preference not found.");
         }
     }catch(error){
         
-        response.status(500).send(error.message)
+        response.status(500).send(error.message);
     }
-})
+});
 
 //insert into artists from last.fm api
 app.post('/artists/:country',(request,response)=>{
@@ -309,23 +317,23 @@ app.post('/artists/:country',(request,response)=>{
                 artists[i].destroy();
             }
         }
-    })
+    });
     axios.get(url).then((result)=>{
         for(var i=0;i<20;i++){
             var name=result.data.topartists.artist[i].name;
             var listeners=result.data.topartists.artist[i].listeners;
             var url=result.data.topartists.artist[i].url;
-            var image=result.data.topartists.artist[i].image[2]["#text"]
+            var image=result.data.topartists.artist[i].image[2]["#text"];
             Artists.create({ "id":i+1,
                              "name":name,
                              "listeners":listeners,
                              "url":url,
                              "image":image
-            })
+            });
         }
         response.status(200).send('The data has been successfully inserted into the Artists table!');
-    })
-})
+    });
+});
 
 app.get("/artistList", async function(request,response){
     try
@@ -344,7 +352,7 @@ app.get("/artistList", async function(request,response){
     {
         response.status(500).send(error.message);
     }
-})
+});
 
 async function findArtistIdByName(searched_name){
    var artist=await Artists.findOne({where:{name:searched_name}});
@@ -357,16 +365,14 @@ async function findArtistIdByName(searched_name){
 }
 
 app.post('/geoTracks/:country',(request,response)=>{
-    let url='https://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country='+request.params.country+'&api_key=3516736128cc24d429fa4a04d2ef2d7b&format=json&limit=20'
+    let url='https://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country='+request.params.country+'&api_key=3516736128cc24d429fa4a04d2ef2d7b&format=json&limit=20';
    GeoTracks.findAll().then(function(track){
         if(track){
             for(var i=0;i<track.length;i++){
                 track[i].destroy();
             }
-             console.log("sterse");
         }
-       
-    })
+    });
    axios.get(url).then(async(result) => {
         
         for(let i=0;i<20;i++){
@@ -380,7 +386,8 @@ app.post('/geoTracks/:country',(request,response)=>{
     
         try{
            var id_artist = await findArtistIdByName(artist_name);
-          await  GeoTracks.create({"id":i+1,
+           await  GeoTracks.create({
+                          "id":i+1,
                           "name":name,
                           "listeners":noOfListeners,
                           "url":url,
@@ -388,7 +395,7 @@ app.post('/geoTracks/:country',(request,response)=>{
                           "rank":rank,
                           "country":country,
                           "id_artist":id_artist
-        })
+        });
         }catch(error){
             
             console.log("Error message: "+error.message);
@@ -397,10 +404,8 @@ app.post('/geoTracks/:country',(request,response)=>{
     
     response.status(200).send('The data has been successfully inserted into the table');
      
-    })
-    
-   
-})
+    });
+});
 
 app.put('/geoTracks/:name', function(request, response) {
     GeoTracks.findOne({
@@ -422,11 +427,16 @@ app.put('/geoTracks/:name', function(request, response) {
 app.get("/geoTrackList",async function(request,response){
     try{
    let geo_tracks= await GeoTracks.findAll();
-   response.status(200).json(geo_tracks);
+   if(geo_tracks.length>0){
+       
+      response.status(200).json(geo_tracks);
+   }else{
+       response.status(204).send('GeoTrack list is empty');
+   }
     }catch(error){
         response.status(500).send(error.message);
     }
-})
+});
 
 app.delete('/geoTracks/:name', function(request, response) {
     GeoTracks.findOne({
@@ -476,16 +486,14 @@ app.put('/genreTracks/:name', function(request, response) {
 
 app.post('/genreTracks/:genre',(request,response)=>{
     try{
-    let url='https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag='+request.params.genre+'&api_key=3516736128cc24d429fa4a04d2ef2d7b&format=json&limit=20'
+    let url='https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag='+request.params.genre+'&api_key=3516736128cc24d429fa4a04d2ef2d7b&format=json&limit=20';
     GenreTracks.findAll().then(function (track){
         if(track){
             for(var i=0;i<track.length;i++){
                 track[i].destroy();
             }
-             console.log("sterse");
         }
-       
-    })
+    });
     axios.get(url).then(async(result) => {
     for(var i=0;i<20;i++){
         var name=result.data.tracks.track[i].name;
@@ -495,10 +503,10 @@ app.post('/genreTracks/:genre',(request,response)=>{
         var rank=result.data.tracks.track[i]['@attr'].rank;
         var genre=request.params.genre;
         let artist_name=result.data.tracks.track[i].artist.name;
-        
         var id_artist=await findArtistIdByName(artist_name); 
         
-        await GenreTracks.create({"id":i+1,
+        await GenreTracks.create({
+                          "id":i+1,
                           "name":name,
                           "duration":duration,
                           "url":url,
@@ -506,17 +514,15 @@ app.post('/genreTracks/:genre',(request,response)=>{
                           "rank":rank,
                           "genre":genre,
                           "id_artist":id_artist
-        })
+        });
     }
-    
     response.status(200).send('The data has been successfully inserted into the GenreTracks table');
-    })
-    
-    } catch(error){
+    });
+} catch(error){
         response.status(500).send(error.message);
     }
-    
-})
+});
+
 app.get("/genreTrackList",async function(request,response){
     try {
         var genre_tracks= await GenreTracks.findAll();
@@ -527,11 +533,10 @@ app.get("/genreTrackList",async function(request,response){
             response.status(204).send('The GenreTracksList is empty!');
         }
     }
-    
     catch(error){
         response.status(500).send(error.message);
     }
-})
+});
 
 
 app.listen(8080);
