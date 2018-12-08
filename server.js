@@ -21,7 +21,7 @@ const Accounts = sequelize.define('accounts', {
     name: Sequelize.STRING,
     username: {
                 type:Sequelize.STRING,
-                unique:{
+                 unique:{
                     msg:'This username already exists'
                 },
                  allowNull: false
@@ -31,10 +31,10 @@ const Accounts = sequelize.define('accounts', {
                 type:Sequelize.STRING,
                 allowNull: false,
                validate:{
-                    len:{
+                      len:{
                         args:[5,15],
                         msg:'Password must have between 5 and 15 characters'
-                    },
+                         },
                     notEmpty:true,
                }
     },
@@ -125,46 +125,87 @@ GeoTracks.belongsTo(Artists,{foreignKey:'id_artist'});
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.post('/accounts',function(request,response){
-    Accounts.create(request.body).then(function(account){
+//Accounts table
+
+app.post('/accounts',(request,response)=>{
+    Accounts.create(request.body).then((account)=>{
         response.status(201).json(account);
-    }).catch(function(error){
-        response.status(401).send(error.message);
+    }).catch((error)=>{
+        response.status(500).send(error.message);
     })
 })
+
 app.get('/userPreferences/:username', async(request,response)=>{
     try{
-        let account=await Accounts.findOne({where:{username:request.params.username}});
+        let account=await Accounts.findOne(
+            { where:
+                {
+                username:request.params.username
+                }
+            });
+            
         if(account){
             let preferences=await account.getPreferences();
-            response.status(200).json(preferences);
+            if(preferences.length>0){
+                
+                   response.status(200).json(preferences);
+            } else {
+                
+                response.status(204).send("The preference list for this account is empty!");
+            }
         } else {
-            response.status(404).send("not found");
+            response.status(404).send("The account was not found!");
         }
     } catch(error){
+        
         response.status(500).send(error.message);
     }
     
 })
+
 app.get('/accountList',async(request,response)=>{
     try {
+        
         let accounts= await Accounts.findAll();
-        response.status(200).json(accounts);
+        if(accounts.length>0){
+            
+            response.status(200).json(accounts);
+            
+        } else {
+            
+            response.status(204).send("The Accounts table is empty!");
+        }
+        
     } catch(error) {
         response.status(500).send(error.message);
     }
 })
+
 app.put('/updateAccount/:username',async function(request,response){
+    
     try {
-        let account=await Accounts.findOne({where:{username:request.params.username}});
+        let account=await Accounts.findOne(
+            {
+                where:
+                {
+                    username:request.params.username
+                    
+                }
+                
+            });
+            
         if(account){
+            
             await account.update(request.body);
             response.status(200).json(account);
         }
         else {
-            response.status(404).send("Not found");
+            
+            response.status(404).send("The account was not found");
         }
+        
     } catch(error){
+        
         response.status(500).send(error.message);
     }
   
@@ -172,7 +213,14 @@ app.put('/updateAccount/:username',async function(request,response){
 
 app.delete("/account/:username", async function(request,response){
     try{
-      let account= await Accounts.findOne({where:{username:request.params.username}});
+        
+        let account= await Accounts.findOne(
+            {
+                where:{
+                    username:request.params.username
+                }
+                
+            });
       if(account){
           await account.destroy();
           response.status(200).send("The account was deleted");
@@ -275,7 +323,7 @@ app.post('/artists/:country',(request,response)=>{
                              "image":image
             })
         }
-        response.status(200).send("ok");
+        response.status(200).send('The data has been successfully inserted into the Artists table!');
     })
 })
 
@@ -283,7 +331,14 @@ app.get("/artistList", async function(request,response){
     try
     { 
         let artists= await Artists.findAll();
-        response.status(200).json(artists);
+        if(artists.length>0){
+            
+             response.status(200).json(artists);
+        } else {
+            
+            response.status(204).send("The artist list is empty!");
+        }
+       
     }
     catch(error)
     {
@@ -454,10 +509,10 @@ app.post('/genreTracks/:genre',(request,response)=>{
         })
     }
     
-    response.status(200).send('The data has been successfully inserted into the table');
-     
+    response.status(200).send('The data has been successfully inserted into the GenreTracks table');
     })
-    }catch(error){
+    
+    } catch(error){
         response.status(500).send(error.message);
     }
     
@@ -465,8 +520,14 @@ app.post('/genreTracks/:genre',(request,response)=>{
 app.get("/genreTrackList",async function(request,response){
     try {
         var genre_tracks= await GenreTracks.findAll();
-        response.status(200).json(genre_tracks);
+        if(genre_tracks.length>0){
+            
+            response.status(200).json(genre_tracks);
+        } else {
+            response.status(204).send('The GenreTracksList is empty!');
+        }
     }
+    
     catch(error){
         response.status(500).send(error.message);
     }
