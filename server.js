@@ -444,11 +444,11 @@ app.put('/updateGeoTracks/:name',async function(request,response){
 });
 
 //update by id
-app.put('/genreTracks/:id', function(request, response) {
-    GenreTracks.findById(request.params.id).then(function(genre_tracks) {
-        if(genre_tracks) {
-            genre_tracks.update(request.body).then(function(genre_tracks){
-                response.status(201).send(genre_tracks)
+app.put('/geoTracks/:id', function(request, response) {
+    GeoTracks.findById(request.params.id).then(function(geo_tracks) {
+        if(geo_tracks) {
+            geo_tracks.update(request.body).then(function(geo_tracks){
+                response.status(201).send(geo_tracks)
             }).catch(function(error) {
                 response.status(200).send(error)
             })
@@ -457,6 +457,7 @@ app.put('/genreTracks/:id', function(request, response) {
         }
     })
 })
+
 
 
 //display the list of top tracks by geography position from the geoTracks table
@@ -614,11 +615,11 @@ app.put('/updateGenreTracks/:name',async function(request,response){
 });
 
 //update by id
-app.put('/geoTracks/:id', function(request, response) {
-    GeoTracks.findById(request.params.id).then(function(geo_tracks) {
-        if(geo_tracks) {
-            geo_tracks.update(request.body).then(function(geo_tracks){
-                response.status(201).send(geo_tracks)
+app.put('/genreTracks/:id', function(request, response) {
+    GenreTracks.findById(request.params.id).then(function(genre_tracks) {
+        if(genre_tracks) {
+            genre_tracks.update(request.body).then(function(genre_tracks){
+                response.status(201).send(genre_tracks)
             }).catch(function(error) {
                 response.status(200).send(error)
             })
