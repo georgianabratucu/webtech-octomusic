@@ -137,7 +137,7 @@ app.post('/accounts',(request,response)=>{
     });
 });
 
-app.get('/userPreferences/:username', async(request,response)=>{
+app.get('/userPreferences/:username', async function(request,response){
     try{
         let account=await Accounts.findOne(
             { where:
@@ -149,6 +149,7 @@ app.get('/userPreferences/:username', async(request,response)=>{
         if(account){
             let preferences=await account.getPreferences();
             response.status(200).json(preferences);
+            console.log('There are '+preferences.length+' preferences for this user.');
                    
         } else {
             
@@ -161,12 +162,12 @@ app.get('/userPreferences/:username', async(request,response)=>{
     
 });
 
-app.get('/accountList',async(request,response)=>{
+app.get('/accountList',async function(request,response){
     try {
         
         let accounts= await Accounts.findAll();
-      
-      response.status(200).json(accounts);
+         response.status(200).json(accounts);
+         console.log("There are "+accounts.length+" accounts ");
         
     } catch(error) {
         response.status(500).send(error.message);
@@ -193,7 +194,7 @@ app.put('/updateAccount/:username',async function(request,response){
         }
         else {
             
-            response.status(404).send("The account was not found");
+            response.status(404).send("The account was not found!");
         }
         
     } catch(error){
@@ -215,11 +216,11 @@ app.delete("/account/:username", async function(request,response){
             });
       if(account){
           await account.destroy();
-          response.status(200).send("The account was deleted");
+          response.status(200).send("The account was deleted!");
       }
       else
       {
-          response.status(404).send("The account was not found");
+          response.status(404).send("The account was not found!");
       }
     } catch(error){
         response.status(500).send(error.message);
@@ -324,7 +325,9 @@ app.get("/artistList", async function(request,response){
     try
     { 
         let artists= await Artists.findAll();
+        var no_of_artists=artists.length;
         response.status(200).json(artists);
+        console.log('There are '+no_of_artists+' artists in the table!');
     }
     catch(error)
     {
@@ -415,8 +418,6 @@ app.put('/updateGeoTracks/:name',async function(request,response){
   
 });
 
-
-
 app.get("/geoTrackList",async function(request,response){
     try{
          let geo_tracks= await GeoTracks.findAll();
@@ -440,6 +441,58 @@ app.delete('/geoTracks/:name', function(request, response) {
         }
     })
 })
+
+
+app.post('/genreTracks/:genre',(request,response)=>{
+    try{
+    let url='https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag='+request.params.genre+'&api_key=3516736128cc24d429fa4a04d2ef2d7b&format=json&limit=20';
+    GenreTracks.findAll().then(function (track){
+        if(track){
+            for(var i=0;i<track.length;i++){
+                track[i].destroy();
+            }
+        }
+    });
+    axios.get(url).then(async(result) => {
+    for(var i=0;i<20;i++){
+        var name=result.data.tracks.track[i].name;
+        var duration=result.data.tracks.track[i].duration;
+        var url=result.data.tracks.track[i].url;
+        var image=result.data.tracks.track[i].image[1]['#text'];
+        var rank=result.data.tracks.track[i]['@attr'].rank;
+        var genre=request.params.genre;
+        let artist_name=result.data.tracks.track[i].artist.name;
+        var id_artist=await findArtistIdByName(artist_name); 
+        
+        await GenreTracks.create({
+                          "id":i+1,
+                          "name":name,
+                          "duration":duration,
+                          "url":url,
+                          "image":image,
+                          "rank":rank,
+                          "genre":genre,
+                          "id_artist":id_artist
+        });
+    }
+    response.status(200).send('The data has been successfully inserted into the GenreTracks table!');
+    });
+} catch(error){
+        response.status(500).send(error.message);
+    }
+});
+
+app.get("/genreTrackList",async function(request,response){
+    try {
+            var genre_tracks= await GenreTracks.findAll();
+            let no_of_genre_tracks=genre_tracks.length;
+            response.status(200).json(genre_tracks);
+            console.log('There are '+no_of_genre_tracks+' tracks in the table!');
+      }
+    catch(error){
+            response.status(500).send(error.message);
+    }
+});
 
 app.delete('/genreTracks/:name', function(request, response) {
     GenreTracks.findOne({
@@ -485,57 +538,5 @@ app.put('/updateGenreTracks/:name',async function(request,response){
     }
   
 });
-
-
-
-app.post('/genreTracks/:genre',(request,response)=>{
-    try{
-    let url='https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag='+request.params.genre+'&api_key=3516736128cc24d429fa4a04d2ef2d7b&format=json&limit=20';
-    GenreTracks.findAll().then(function (track){
-        if(track){
-            for(var i=0;i<track.length;i++){
-                track[i].destroy();
-            }
-        }
-    });
-    axios.get(url).then(async(result) => {
-    for(var i=0;i<20;i++){
-        var name=result.data.tracks.track[i].name;
-        var duration=result.data.tracks.track[i].duration;
-        var url=result.data.tracks.track[i].url;
-        var image=result.data.tracks.track[i].image[1]['#text'];
-        var rank=result.data.tracks.track[i]['@attr'].rank;
-        var genre=request.params.genre;
-        let artist_name=result.data.tracks.track[i].artist.name;
-        var id_artist=await findArtistIdByName(artist_name); 
-        
-        await GenreTracks.create({
-                          "id":i+1,
-                          "name":name,
-                          "duration":duration,
-                          "url":url,
-                          "image":image,
-                          "rank":rank,
-                          "genre":genre,
-                          "id_artist":id_artist
-        });
-    }
-    response.status(200).send('The data has been successfully inserted into the GenreTracks table');
-    });
-} catch(error){
-        response.status(500).send(error.message);
-    }
-});
-
-app.get("/genreTrackList",async function(request,response){
-    try {
-            var genre_tracks= await GenreTracks.findAll();
-            response.status(200).json(genre_tracks);
-      }
-    catch(error){
-            response.status(500).send(error.message);
-    }
-});
-
 
 app.listen(8080);
