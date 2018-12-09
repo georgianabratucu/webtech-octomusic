@@ -360,6 +360,30 @@ app.get("/artistList", async function(request,response){
     }
 });
 
+//delete an artist from Artists table
+app.delete("/deleteArtist/:name", async function(request,response){
+    try{
+        
+        let artist= await Artists.findOne(
+            {
+                where:{
+                    name:request.params.name
+                }
+                
+            });
+      if(artist){
+          await artist.destroy();
+          response.status(200).send("The artist was deleted!");
+      }
+      else
+      {
+          response.status(404).send("The artist was not found!");
+      }
+    } catch(error){
+        response.status(500).send(error.message);
+    }
+});
+
 //function to bind Artists and geoTracks/genreTracks tables by id artist
 async function findArtistIdByName(searched_name){
    var artist=await Artists.findOne({where:{name:searched_name}});
