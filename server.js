@@ -456,6 +456,7 @@ app.get("/geoTrackList",async function(request,response){
     }
 });
 
+//delete geoTrack by name
 app.delete('/geoTracks/:name', function(request, response) {
     GeoTracks.findOne({
   where: {name: request.params.name}
@@ -469,6 +470,20 @@ app.delete('/geoTracks/:name', function(request, response) {
         }
     })
 })
+
+//delete geoTrack by id
+app.delete('/deleteGeoTracks/:id', function(request, response) {
+    GeoTracks.findById(request.params.id).then(function(geo_tracks) {
+        if(geo_tracks) {
+            geo_tracks.destroy().then(function(){
+                response.status(204).send()
+            })
+        } else {
+            response.status(404).send('Not found')
+        }
+    })
+})
+
 
 //insert into genreTracks table from last.fm api
 app.post('/genreTracks/:genre',(request,response)=>{
