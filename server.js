@@ -62,33 +62,6 @@ const Accounts = sequelize.define('accounts', {
     birth_date:Sequelize.DATE
 });
 
-//define the Preferences table structure
-const Preferences=sequelize.define('preferences',{
-     track_name:{
-                  type:Sequelize.STRING,
-                  allowNull: false
-      },
-     mark:{
-             type:Sequelize.INTEGER,
-      },
-     id_user:{
-                type:Sequelize.INTEGER,
-                allowNull: false
-    }
-});
-
-//define the Artists table structure
-const Artists=sequelize.define('artists',{
-    
-     name: {
-             type:Sequelize.STRING,
-             allowNull:false
-       },
-     listeners:Sequelize.INTEGER,
-     url:Sequelize.STRING,
-     image:Sequelize.STRING
-});
-
 //define the GeoTracks table structure
 const GeoTracks = sequelize.define('geo_tracks', {
     
@@ -123,6 +96,31 @@ const GenreTracks = sequelize.define('genre_tracks', {
         },
      genre: Sequelize.STRING,
      id_artist:Sequelize.INTEGER
+});
+
+const Artists=sequelize.define('artists',{
+    
+     name: {
+             type:Sequelize.STRING,
+             allowNull:false
+       },
+     listeners:Sequelize.INTEGER,
+     url:Sequelize.STRING,
+     image:Sequelize.STRING
+});
+
+const Preferences=sequelize.define('preferences',{
+     track_name:{
+                  type:Sequelize.STRING,
+                  allowNull: false
+      },
+     mark:{
+             type:Sequelize.INTEGER,
+      },
+     id_user:{
+                type:Sequelize.INTEGER,
+                allowNull: false
+    }
 });
 
 //define bindings between tables (foreign keys)
@@ -571,6 +569,49 @@ app.delete('/genreTracks/:name', function(request, response) {
         }
     })
 })
+
+//delete genreTrack by id
+app.delete('/deleteGenreTracks/:id', function(request, response) {
+    GenreTracks.findById(request.params.id).then(function(genre_tracks) {
+        if(genre_tracks) {
+            genre_tracks.destroy().then(function(){
+                response.status(204).send()
+            })
+        } else {
+            response.status(404).send('Not found')
+        }
+    })
+})
+
+//update by name
+app.put('/updateGenreTracks/:name',async function(request,response){
+    
+    try {
+        let genre_tracks=await GenreTracks.findOne(
+            {
+                where:
+                {
+                    name:request.params.name
+                    
+                }
+                
+            });
+            
+        if(genre_tracks){
+            
+            await genre_tracks.update(request.body);
+            response.status(200).json(genre_tracks);
+        }
+        else {
+            
+            response.status(404).send("The name was not found");
+        }
+        
+    } catch(error){
+        
+        response.status(500).send(error.message);
+    }
+});
 
 //delete genreTrack by id
 app.delete('/deleteGenreTracks/:id', function(request, response) {
