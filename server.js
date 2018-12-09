@@ -566,6 +566,7 @@ app.delete('/deleteGenreTracks/:id', function(request, response) {
     })
 })
 
+//update by name
 app.put('/updateGenreTracks/:name',async function(request,response){
     
     try {
@@ -595,5 +596,20 @@ app.put('/updateGenreTracks/:name',async function(request,response){
     }
   
 });
+
+//update by id
+app.put('/geoTracks/:id', function(request, response) {
+    GeoTracks.findById(request.params.id).then(function(geo_tracks) {
+        if(geo_tracks) {
+            geo_tracks.update(request.body).then(function(geo_tracks){
+                response.status(201).send(geo_tracks)
+            }).catch(function(error) {
+                response.status(200).send(error)
+            })
+        } else {
+            response.status(404).send('Not found')
+        }
+    })
+})
 
 app.listen(8080);
