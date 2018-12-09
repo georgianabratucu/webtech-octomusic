@@ -538,6 +538,7 @@ app.get("/genreTrackList",async function(request,response){
     }
 });
 
+//delete genreTrack by name
 app.delete('/genreTracks/:name', function(request, response) {
     GenreTracks.findOne({
   where: {name: request.params.name}
@@ -552,6 +553,18 @@ app.delete('/genreTracks/:name', function(request, response) {
     })
 })
 
+//delete genreTrack by id
+app.delete('/deleteGenreTracks/:id', function(request, response) {
+    GenreTracks.findById(request.params.id).then(function(genre_tracks) {
+        if(genre_tracks) {
+            genre_tracks.destroy().then(function(){
+                response.status(204).send()
+            })
+        } else {
+            response.status(404).send('Not found')
+        }
+    })
+})
 
 app.put('/updateGenreTracks/:name',async function(request,response){
     
