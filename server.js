@@ -451,15 +451,15 @@ app.put('/geoTracks/:id', function(request, response) {
     GeoTracks.findById(request.params.id).then(function(geo_tracks) {
         if(geo_tracks) {
             geo_tracks.update(request.body).then(function(geo_tracks){
-                response.status(201).send(geo_tracks)
+                response.status(201).send(geo_tracks);
             }).catch(function(error) {
-                response.status(200).send(error)
-            })
+                response.status(200).send(error.message);
+            });
         } else {
-            response.status(404).send('Not found')
+            response.status(404).send('Not found');
         }
-    })
-})
+    });
+});
 
 
 
@@ -483,26 +483,26 @@ app.delete('/geoTracks/:name', function(request, response) {
 }).then(function(geo_tracks) {
         if(geo_tracks) {
             geo_tracks.destroy().then(function(){
-                response.status(204).send()
-            })
+                response.status(204).send('the record has been removed');
+            });
         } else {
-            response.status(404).send('Not found')
+            response.status(404).send('Not found');
         }
-    })
-})
+    });
+});
 
 //delete geoTrack by id
 app.delete('/deleteGeoTracks/:id', function(request, response) {
     GeoTracks.findById(request.params.id).then(function(geo_tracks) {
         if(geo_tracks) {
             geo_tracks.destroy().then(function(){
-                response.status(204).send()
-            })
+                response.status(204).send('the record has been removed');
+            });
         } else {
-            response.status(404).send('Not found')
+            response.status(404).send('Not found');
         }
-    })
-})
+    });
+});
 
 
 //insert into genreTracks table from last.fm api
@@ -565,20 +565,20 @@ app.delete('/genreTracks/:name', function(request, response) {
 }).then(function(genre_tracks) {
         if(genre_tracks) {
             genre_tracks.destroy().then(function(){
-                response.status(204).send()
-            })
+                response.status(204).send('the record has been removed')
+            });
         } else {
             response.status(404).send('Not found')
         }
-    })
-})
+    });
+});
 
 //delete genreTrack by id
 app.delete('/deleteGenreTracks/:id', function(request, response) {
     GenreTracks.findById(request.params.id).then(function(genre_tracks) {
         if(genre_tracks) {
             genre_tracks.destroy().then(function(){
-                response.status(204).send()
+                response.status(204).send('the record has been removed')
             })
         } else {
             response.status(404).send('Not found')
@@ -621,13 +621,13 @@ app.delete('/deleteGenreTracks/:id', function(request, response) {
     GenreTracks.findById(request.params.id).then(function(genre_tracks) {
         if(genre_tracks) {
             genre_tracks.destroy().then(function(){
-                response.status(204).send()
-            })
+                response.status(204).send('the record has been removed');
+            });
         } else {
-            response.status(404).send('Not found')
+            response.status(404).send('Not found');
         }
-    })
-})
+    });
+});
 
 //update by name
 app.put('/updateGenreTracks/:name',async function(request,response){
@@ -667,7 +667,7 @@ app.put('/genreTracks/:id', function(request, response) {
             genre_tracks.update(request.body).then(function(genre_tracks){
                 response.status(201).send(genre_tracks)
             }).catch(function(error) {
-                response.status(200).send(error)
+                response.status(200).send(error.message)
             })
         } else {
             response.status(404).send('Not found')
