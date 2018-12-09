@@ -62,6 +62,33 @@ const Accounts = sequelize.define('accounts', {
     birth_date:Sequelize.DATE
 });
 
+//define the Preferences table structure
+const Preferences=sequelize.define('preferences',{
+     track_name:{
+                  type:Sequelize.STRING,
+                  allowNull: false
+      },
+     mark:{
+             type:Sequelize.INTEGER,
+      },
+     id_user:{
+                type:Sequelize.INTEGER,
+                allowNull: false
+    }
+});
+
+//define the Artists table structure
+const Artists=sequelize.define('artists',{
+    
+     name: {
+             type:Sequelize.STRING,
+             allowNull:false
+       },
+     listeners:Sequelize.INTEGER,
+     url:Sequelize.STRING,
+     image:Sequelize.STRING
+});
+
 //define the GeoTracks table structure
 const GeoTracks = sequelize.define('geo_tracks', {
     
@@ -96,31 +123,6 @@ const GenreTracks = sequelize.define('genre_tracks', {
         },
      genre: Sequelize.STRING,
      id_artist:Sequelize.INTEGER
-});
-
-const Artists=sequelize.define('artists',{
-    
-     name: {
-             type:Sequelize.STRING,
-             allowNull:false
-       },
-     listeners:Sequelize.INTEGER,
-     url:Sequelize.STRING,
-     image:Sequelize.STRING
-});
-
-const Preferences=sequelize.define('preferences',{
-     track_name:{
-                  type:Sequelize.STRING,
-                  allowNull: false
-      },
-     mark:{
-             type:Sequelize.INTEGER,
-      },
-     id_user:{
-                type:Sequelize.INTEGER,
-                allowNull: false
-    }
 });
 
 //define bindings between tables (foreign keys)
