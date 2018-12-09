@@ -62,6 +62,7 @@ const Accounts = sequelize.define('accounts', {
     birth_date:Sequelize.DATE
 });
 
+//define the GeoTracks table structure
 const GeoTracks = sequelize.define('geo_tracks', {
     
     name: {
@@ -122,6 +123,7 @@ const Preferences=sequelize.define('preferences',{
     }
 });
 
+//define bindings between tables (foreign keys)
 Accounts.hasMany(Preferences,{foreignKey:'id_user'});
 Preferences.belongsTo(Accounts,{foreignKey:'id_user'});
 Artists.hasMany(GeoTracks,{foreignKey:'id_artist'});
@@ -129,10 +131,12 @@ Artists.hasMany(GenreTracks,{foreignKey:'id_artist'});
 GenreTracks.belongsTo(Artists,{foreignKey:'id_artist'});
 GeoTracks.belongsTo(Artists,{foreignKey:'id_artist'});
 
+//allow use json files
 app.use(express.json());
+//allow use url encoded
 app.use(express.urlencoded());
 
-//insert new records into the Account table
+//insert new records into the Accounts table
 app.post('/accounts',(request,response)=>{
     Accounts.create(request.body).then((account)=>{
         response.status(201).json(account);
@@ -172,8 +176,8 @@ app.get('/userPreferences/:username', async function(request,response){
 app.get('/accountList',async function(request,response){
     try {
         
-        let accounts= await Accounts.findAll();
-        let no_of_accounts=accounts.length;
+         let accounts= await Accounts.findAll();
+         let no_of_accounts=accounts.length;
          response.status(200).json(accounts);
          console.log("There are "+no_of_accounts+" accounts! ");
         
@@ -237,6 +241,7 @@ app.delete("/account/:username", async function(request,response){
     }
 });
 
+//insert new records the Preferences table
 app.post('/preferences',(request,response)=>{
     Preferences.create(request.body).then(preference=>{
         response.status(201).json(preference);
@@ -245,6 +250,7 @@ app.post('/preferences',(request,response)=>{
     });
 });
 
+//display the list of preferences from the Preferences table
 app.get('/preferenceList',async function(request,response){
     try{
          let preferences= await Preferences.findAll();
@@ -257,6 +263,7 @@ app.get('/preferenceList',async function(request,response){
     }
 });
 
+//modify a preference by id user and track name
 app.put('/updatePreference/:track_name/:id_user',async function(request, response) {
     try{
         let preference = await Preferences.findOne(
@@ -281,6 +288,7 @@ app.put('/updatePreference/:track_name/:id_user',async function(request, respons
     
 });
 
+//delete a preference by id user and track name
 app.delete('/deletePreference/:id_user/:track_name',async(request,response)=>{
     try{
         let preference=await Preferences.findOne(
@@ -349,6 +357,7 @@ app.get("/artistList", async function(request,response){
     }
 });
 
+//function to bind Artists and geoTracks/genreTracks tables by id artist
 async function findArtistIdByName(searched_name){
    var artist=await Artists.findOne({where:{name:searched_name}});
     if(artist){
@@ -359,6 +368,7 @@ async function findArtistIdByName(searched_name){
      }
 }
 
+//insert new records into the geoTracks table from last.fm api
 app.post('/geoTracks/:country',(request,response)=>{
     let url='https://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country='+request.params.country+'&api_key=3516736128cc24d429fa4a04d2ef2d7b&format=json&limit=20';
    GeoTracks.findAll().then(function(track){
@@ -372,7 +382,7 @@ app.post('/geoTracks/:country',(request,response)=>{
         
         for(let i=0;i<20;i++){
         var name=result.data.tracks.track[i].name;
-        var noOfListeners=result.data.tracks.track[i].listeners;
+        var no_of_listeners=result.data.tracks.track[i].listeners;
         var url=result.data.tracks.track[i].url;
         var image=result.data.tracks.track[i].image[1]['#text'];
         var rank=result.data.tracks.track[i]['@attr'].rank;
@@ -384,7 +394,7 @@ app.post('/geoTracks/:country',(request,response)=>{
            await  GeoTracks.create({
                           "id":i+1,
                           "name":name,
-                          "listeners":noOfListeners,
+                          "listeners":no_of_listeners,
                           "url":url,
                           "image":image,
                           "rank":rank,
@@ -401,6 +411,7 @@ app.post('/geoTracks/:country',(request,response)=>{
      
     });
 });
+
 
 app.put('/updateGeoTracks/:name',async function(request,response){
     
@@ -432,6 +443,7 @@ app.put('/updateGeoTracks/:name',async function(request,response){
   
 });
 
+//display the list of top tracks by geography position from the geoTracks table
 app.get("/geoTrackList",async function(request,response){
     try{
          let geo_tracks= await GeoTracks.findAll();
@@ -529,7 +541,7 @@ app.delete('/genreTracks/:name', function(request, response) {
 app.put('/updateGenreTracks/:name',async function(request,response){
     
     try {
-        let genreTracks=await GenreTracks.findOne(
+        let genre_tracks=await GenreTracks.findOne(
             {
                 where:
                 {
@@ -539,10 +551,10 @@ app.put('/updateGenreTracks/:name',async function(request,response){
                 
             });
             
-        if(genreTracks){
+        if(genre_tracks){
             
-            await genreTracks.update(request.body);
-            response.status(200).json(genreTracks);
+            await genre_tracks.update(request.body);
+            response.status(200).json(genre_tracks);
         }
         else {
             
