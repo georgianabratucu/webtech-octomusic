@@ -4,19 +4,23 @@ const axios=require("axios");
 
 const app=express();
 
+//use static files from the statics folder
 app.use("/",express.static('static'));
 
+//establishing the connection to the database
 const sequelize = new Sequelize('Music', 'root', '', {
     dialect:'mysql',
     host:'localhost'
 });
 
+//performing authentication to the database
 sequelize.authenticate().then(authenticate=>{
     console.log('You have successfully connected to the database.\n' + 'Good luck.');
 }).catch(function(){
     console.log('Unfortunately, there was an error connecting to the database.\n'+'Keep trying.');
 });
 
+//create tables
 app.get('/creatingTables',(request,response)=>{
     sequelize.sync({force:true}).then(success=>{
         response.status(201).send('The tables has been successfully created.');
@@ -25,7 +29,7 @@ app.get('/creatingTables',(request,response)=>{
     });
 });
 
-//create tables
+//define the Accounts table structure
 const Accounts = sequelize.define('accounts', {
     
     name: Sequelize.STRING,
@@ -75,6 +79,7 @@ const GeoTracks = sequelize.define('geo_tracks', {
     id_artist:Sequelize.INTEGER
 });
 
+//define the GenreTracks table structure
 const GenreTracks = sequelize.define('genre_tracks', {
     
      name:{ 
@@ -127,8 +132,7 @@ GeoTracks.belongsTo(Artists,{foreignKey:'id_artist'});
 app.use(express.json());
 app.use(express.urlencoded());
 
-//Accounts table
-
+//insert new records into the Account table
 app.post('/accounts',(request,response)=>{
     Accounts.create(request.body).then((account)=>{
         response.status(201).json(account);
@@ -137,6 +141,7 @@ app.post('/accounts',(request,response)=>{
     });
 });
 
+//display a list of preferences for an account 
 app.get('/userPreferences/:username', async function(request,response){
     try{
         let account=await Accounts.findOne(
@@ -148,8 +153,9 @@ app.get('/userPreferences/:username', async function(request,response){
             
         if(account){
             let preferences=await account.getPreferences();
+            let no_of_preferences=preferences.length;
             response.status(200).json(preferences);
-            console.log('There are '+preferences.length+' preferences for this user.');
+            console.log('There are '+no_of_preferences+' preferences for this user.');
                    
         } else {
             
@@ -162,18 +168,21 @@ app.get('/userPreferences/:username', async function(request,response){
     
 });
 
+//display the list of accounts from the Accounts table
 app.get('/accountList',async function(request,response){
     try {
         
         let accounts= await Accounts.findAll();
+        let no_of_accounts=accounts.length;
          response.status(200).json(accounts);
-         console.log("There are "+accounts.length+" accounts ");
+         console.log("There are "+no_of_accounts+" accounts! ");
         
     } catch(error) {
         response.status(500).send(error.message);
     }
 });
 
+//modify an account by username
 app.put('/updateAccount/:username',async function(request,response){
     
     try {
@@ -204,6 +213,7 @@ app.put('/updateAccount/:username',async function(request,response){
   
 });
 
+//delete an account by username
 app.delete("/account/:username", async function(request,response){
     try{
         
@@ -296,7 +306,7 @@ app.delete('/deletePreference/:id_user/:track_name',async(request,response)=>{
     }
 });
 
-//insert into artists from last.fm api
+//insert into artists table from last.fm api
 app.post('/artists/:country',(request,response)=>{
     
     let url='http://ws.audioscrobbler.com/2.0/?method=geo.gettopartists&country='+request.params.country+'&api_key=3516736128cc24d429fa4a04d2ef2d7b&format=json&limit=20';
@@ -324,6 +334,7 @@ app.post('/artists/:country',(request,response)=>{
     });
 });
 
+//display the list of artists from the Artists table
 app.get("/artistList", async function(request,response){
     try
     { 
@@ -447,7 +458,7 @@ app.delete('/geoTracks/:name', function(request, response) {
     })
 })
 
-
+//insert into genreTracks table from last.fm api
 app.post('/genreTracks/:genre',(request,response)=>{
     try{
     let url='https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag='+request.params.genre+'&api_key=3516736128cc24d429fa4a04d2ef2d7b&format=json&limit=20';
@@ -487,6 +498,7 @@ app.post('/genreTracks/:genre',(request,response)=>{
     }
 });
 
+//display the list of genreTracks from the genreTracks table
 app.get("/genreTrackList",async function(request,response){
     try {
             var genre_tracks= await GenreTracks.findAll();
