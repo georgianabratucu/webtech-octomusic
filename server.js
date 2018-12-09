@@ -237,8 +237,11 @@ app.post('/preferences',(request,response)=>{
 
 app.get('/preferenceList',async function(request,response){
     try{
-   let preferences= await Preferences.findAll();
-        response.status(200).json(preferences);
+         let preferences= await Preferences.findAll();
+         let size=preferences.length;
+         response.status(200).json(preferences);
+         console.log("There are "+ size +" preferences in the table");
+         
     }catch(error){
         response.status(500).send(error.message);
     }
@@ -281,7 +284,7 @@ app.delete('/deletePreference/:id_user/:track_name',async(request,response)=>{
         if(preference){
             
             await preference.destroy();
-            response.status(200).send('The prefernce has been deleted.');
+            response.status(201).send('The preference has been deleted.');
             
         }else{
             
@@ -421,7 +424,9 @@ app.put('/updateGeoTracks/:name',async function(request,response){
 app.get("/geoTrackList",async function(request,response){
     try{
          let geo_tracks= await GeoTracks.findAll();
+         let no_of_geoTracks=geo_tracks.length;
          response.status(200).json(geo_tracks);
+         console.log("There are "+ no_of_geoTracks +" geoTracks in the table");
    
     }catch(error){
          response.status(500).send(error.message);
