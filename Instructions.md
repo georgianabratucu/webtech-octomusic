@@ -1,4 +1,4 @@
-#INSTRUCTIONS
+# INSTRUCTIONS
 
 * git clone [https://github.com/georgianabratucu/webtech-octomusic.git](https://github.com/georgianabratucu/webtech-octomusic.git)
 
@@ -12,7 +12,7 @@ If you have a version prior to v7.6.0, then you should update your version using
 * nvm alias default v7.8.0
 
 
-#DATABASE CONFIGURATION
+# DATABASE CONFIGURATION
 
 * mysql-ctl start
 
@@ -24,4 +24,4 @@ If you have a version prior to v7.6.0, then you should update your version using
 
 To create the tables you should call the endpoint **/creatingTables** and then you can play with the various CRUD operations applied to the tables.
 
-#HAVE FUN!
+# HAVE FUN!
