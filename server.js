@@ -412,7 +412,7 @@ app.post('/geoTracks/:country',(request,response)=>{
     });
 });
 
-
+//update by name
 app.put('/updateGeoTracks/:name',async function(request,response){
     
     try {
@@ -442,6 +442,22 @@ app.put('/updateGeoTracks/:name',async function(request,response){
     }
   
 });
+
+//update by id
+app.put('/genreTracks/:id', function(request, response) {
+    GenreTracks.findById(request.params.id).then(function(genre_tracks) {
+        if(genre_tracks) {
+            genre_tracks.update(request.body).then(function(genre_tracks){
+                response.status(201).send(genre_tracks)
+            }).catch(function(error) {
+                response.status(200).send(error)
+            })
+        } else {
+            response.status(404).send('Not found')
+        }
+    })
+})
+
 
 //display the list of top tracks by geography position from the geoTracks table
 app.get("/geoTrackList",async function(request,response){
