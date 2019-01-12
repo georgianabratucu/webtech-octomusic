@@ -100,5 +100,27 @@ class Store{
 		}		
 	
     }
+    async addArtists(country){
+        try{
+		    await axios.post(`${SERVER}/artists/`+country)
+			this.getArtists()
+			this.emitter.emit('ADD_SUCCESS')			
+		}
+		catch(ex){
+			console.warn(ex)
+			this.emitter.emit('ADD_ERROR')
+		}
+
+    }
+    async getArtists(){
+        try{
+             let response=await axios(`${SERVER}/artistList`)
+            this.content=response.data
+            this.emitter.emit('GET_ALL_SUCCESS')
+        }catch(ex){
+            console.log(ex)
+            this.emitter.emit('GET_ALL_ERROR')
+        }
+    }
 }
 export default Store

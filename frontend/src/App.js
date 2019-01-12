@@ -9,6 +9,7 @@ import FavouriteList from './FavouriteList';
 import Store from './Store';
 import SignUp from './SignUp';
 import RadioPlayer from './RadioPlayer';
+import Artists from './ArtistsList';
 class App extends Component {
    constructor() {
     super();
@@ -45,6 +46,8 @@ class App extends Component {
       selectedOption=<SignUp id={1}/>
     } else if(this.apasat==="RadioPlayer"){
         selectedOption=<RadioPlayer/>
+    }else if(this.apasat==="Artists"){
+      selectedOption=<Artists/>
     }
     return (
       <div >

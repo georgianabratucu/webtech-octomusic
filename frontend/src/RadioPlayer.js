@@ -15,9 +15,6 @@ class RadioPlayer extends Component {
              name:"KissFM", link:"http://80.86.106.143:9128/kissfm.aacp"
         },
         {
-             name:"EuropaFM", link:"http://astreaming.europafm.ro:8000/europafm_mp3_64k"
-        },
-        {
              name:"MagicFM", link:"http://80.86.106.143:9128/magicfm.aacp"
         },
         {
