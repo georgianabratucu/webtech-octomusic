@@ -4,6 +4,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {TabMenu} from 'primereact/tabmenu';
 import GeoTrackList from './GeoTrackList';
+import GenreTrackList from './GenreTrackList';
 
 class App extends Component {
    constructor() {
@@ -25,8 +26,8 @@ class App extends Component {
       var selectedOption;
     if(this.apasat==='Geo Tracks'){
       selectedOption=<GeoTrackList onAdd={this.add} id={1}/>
-    }else if(this.apasat==='Edit') {
-     
+    }else if(this.apasat==='Genre Tracks') {
+       selectedOption=<GenreTrackList onAdd={this.add} id={1}/>
     }
     return (
       <div >

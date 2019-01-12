@@ -2,7 +2,11 @@ const express=require("express");
 const Sequelize=require("sequelize");
 const axios=require("axios");
 
+const cors=require("cors");
 const app=express();
+app.use('/',express.static('frontend/build'))
+app.use(cors());
+
 
 //use static files from the statics folder
 app.use("/",express.static('static'));
@@ -333,7 +337,7 @@ app.post('/artists/:country',(request,response)=>{
             var name=result.data.topartists.artist[i].name;
             var listeners=result.data.topartists.artist[i].listeners;
             var url=result.data.topartists.artist[i].url;
-            var image=result.data.topartists.artist[i].image[2]["#text"];
+            var image=result.data.topartists.artist[i].image[3]["#text"];
             Artists.create({ "id":i+1,
                              "name":name,
                              "listeners":listeners,
@@ -442,7 +446,7 @@ app.post('/geoTracks/:country',(request,response)=>{
         var name=result.data.tracks.track[i].name;
         var no_of_listeners=result.data.tracks.track[i].listeners;
         var url=result.data.tracks.track[i].url;
-        var image=result.data.tracks.track[i].image[1]['#text'];
+        var image=result.data.tracks.track[i].image[3]['#text'];
         var rank=result.data.tracks.track[i]['@attr'].rank;
         var country=request.params.country;
         let artist_name=result.data.tracks.track[i].artist.name;
@@ -576,7 +580,7 @@ app.post('/genreTracks/:genre',(request,response)=>{
         var name=result.data.tracks.track[i].name;
         var duration=result.data.tracks.track[i].duration;
         var url=result.data.tracks.track[i].url;
-        var image=result.data.tracks.track[i].image[1]['#text'];
+        var image=result.data.tracks.track[i].image[3]['#text'];
         var rank=result.data.tracks.track[i]['@attr'].rank;
         var genre=request.params.genre;
         let artist_name=result.data.tracks.track[i].artist.name;
