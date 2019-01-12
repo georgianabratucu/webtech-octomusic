@@ -55,7 +55,7 @@ class Store{
     
     async getAllMusicForAnUser(idUser){
         try{
-            let response=await axios(`${SERVER}/userPreferences/`+idUser)
+            let response=await axios(`${SERVER}/userPreferences/`+1)
             this.content=response.data
               this.emitter.emit('GET_ALL_SUCCESS')
             
@@ -67,13 +67,38 @@ class Store{
     async addPreference(preference){
           try{
             await axios.post(`${SERVER}/preferences`,preference)
-            this.getAll()
+            this.getAllMusicForAnUser()
               this.emitter.emit('ADD_SUCCESS')
             
         } catch(ex){
             console.warn(ex)
             this.emitter.emit('ADD_ERROR')
         }
+    }
+    async deleteFav(id,track_name){
+		try{
+			await axios.delete(`${SERVER}/deletePreference/`+id+'/'+track_name)
+			this.getAllMusicForAnUser(id)
+			this.emitter.emit('DELETE_SUCCESS')			
+		}
+		catch(ex){
+			console.warn(ex)
+			this.emitter.emit('DELETE_ERROR')
+		}
+	}
+
+    async saveFav(fav,id){
+        
+		try{
+		    await axios.put(`${SERVER}/updatePreference/`+fav.track_name+'/'+id, fav)
+			this.getAllMusicForAnUser(id)
+			this.emitter.emit('SAVE_SUCCESS')			
+		}
+		catch(ex){
+			console.warn(ex)
+			this.emitter.emit('SAVE_ERROR')
+		}		
+	
     }
 }
 export default Store

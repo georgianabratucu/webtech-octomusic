@@ -5,6 +5,8 @@ import 'primeicons/primeicons.css';
 import {TabMenu} from 'primereact/tabmenu';
 import GeoTrackList from './GeoTrackList';
 import GenreTrackList from './GenreTrackList';
+import FavouriteList from './FavouriteList';
+import Store from './Store';
 
 class App extends Component {
    constructor() {
@@ -14,12 +16,18 @@ class App extends Component {
             {label: 'Home', icon: 'pi pi-fw pi-home'},
             {label: 'Geo Tracks', icon: 'pi pi-fw pi-calendar'},
             {label: 'Genre Tracks', icon: 'pi pi-fw pi-pencil'},
+            {label: 'Favourite', icon: 'pi pi-fw pi-pencil'},
             {label: 'Artists', icon: 'pi pi-fw pi-file'},
             {label: 'Registration', icon: 'pi pi-fw pi-cog'}
         ],
         apasat:'Home',
-        search:''
+        search:'',
+     
     };
+       this.store=new Store();
+        	this.add = (fav) => {
+			this.store.addPreference(fav)
+		}
 }
 
   render() {
@@ -28,6 +36,8 @@ class App extends Component {
       selectedOption=<GeoTrackList onAdd={this.add} id={1}/>
     }else if(this.apasat==='Genre Tracks') {
        selectedOption=<GenreTrackList onAdd={this.add} id={1}/>
+    }else if(this.apasat==="Favourite"){
+      selectedOption=<FavouriteList id={1}/>
     }
     return (
       <div >
