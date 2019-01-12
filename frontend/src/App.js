@@ -35,7 +35,7 @@ class App extends Component {
     if(this.apasat==='Geo Tracks'){
       selectedOption=<GeoTrackList onAdd={this.add} id={1}/>
     }else if(this.apasat==='Genre Tracks') {
-       selectedOption=<GenreTrackList onAdd={this.add} id={1}/>
+       selectedOption=<GenreTrackList id={1}/>
     }else if(this.apasat==="Favourite"){
       selectedOption=<FavouriteList id={1}/>
     }
