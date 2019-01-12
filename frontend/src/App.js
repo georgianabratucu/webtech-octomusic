@@ -7,6 +7,7 @@ import GeoTrackList from './GeoTrackList';
 import GenreTrackList from './GenreTrackList';
 import FavouriteList from './FavouriteList';
 import Store from './Store';
+import SignUp from './SignUp';
 
 class App extends Component {
    constructor() {
@@ -38,6 +39,9 @@ class App extends Component {
        selectedOption=<GenreTrackList id={1}/>
     }else if(this.apasat==="Favourite"){
       selectedOption=<FavouriteList id={1}/>
+    }
+    else if(this.apasat==="Registration"){
+      selectedOption=<SignUp id={1}/>
     }
     return (
       <div >
