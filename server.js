@@ -153,15 +153,10 @@ app.post('/accounts',(request,response)=>{
 });
 
 //display a list of preferences for an account 
-app.get('/userPreferences/:username', async function(request,response){
+app.get('/userPreferences/:id', async function(request,response){
     try{
-        let account=await Accounts.findOne(
-            { where:
-                {
-                username:request.params.username
-                }
-            });
-            
+        let account = await Accounts.findById(request.params.id)
+
         if(account){
             let preferences=await account.getPreferences();
             let no_of_preferences=preferences.length;

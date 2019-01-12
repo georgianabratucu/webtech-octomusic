@@ -3,7 +3,7 @@ import {EventEmitter} from 'fbemitter'
 
 const SERVER='https://webtech-octomusic-bratucugeorgiana.c9users.io'
 
-class GeoTracksStore{
+class Store{
     constructor(){
         this.content=[]
         this.emitter=new EventEmitter()
@@ -52,5 +52,28 @@ class GeoTracksStore{
             this.emitter.emit('ADD_ERROR')
         }
     }
+    
+    async getAllMusicForAnUser(idUser){
+        try{
+            let response=await axios(`${SERVER}/userPreferences/`+idUser)
+            this.content=response.data
+              this.emitter.emit('GET_ALL_SUCCESS')
+            
+        } catch(ex){
+            console.warn(ex)
+            this.emitter.emit('GET_ALL_ERROR')
+        }
+    }
+    async addPreference(preference){
+          try{
+            await axios.post(`${SERVER}/preferences`,preference)
+            this.getAll()
+              this.emitter.emit('ADD_SUCCESS')
+            
+        } catch(ex){
+            console.warn(ex)
+            this.emitter.emit('ADD_ERROR')
+        }
+    }
 }
-export default GeoTracksStore
+export default Store
