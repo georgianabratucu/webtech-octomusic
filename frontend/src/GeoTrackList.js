@@ -5,7 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import GeoTracksStore from './GeoTracksStore';
+import GeoTracksStore from './Store';
 import {Dropdown} from 'primereact/dropdown';
 import './css/style.css';
 
@@ -26,7 +26,7 @@ class GeoTrackList extends React.Component{
       this.store=new GeoTracksStore()  
     }
     componentDidMount(){
-        this.store.getAll()
+        this.store.getAllGeoTracks()
         this.store.emitter.addListener('GET_ALL_SUCCESS',()=>{
             this.setState({
                 tracks:this.store.content
@@ -40,7 +40,7 @@ class GeoTrackList extends React.Component{
         return(
           <div>
           
-           <Dropdown value={this.state.country} options={this.state.countrySelectItems} onChange={(e) => {this.setState({country: e.value});this.store.addOne(e.value)}} placeholder="Select a Country"/>
+           <Dropdown value={this.state.country} options={this.state.countrySelectItems} onChange={(e) => {this.setState({country: e.value});this.store.addOneGeoTrack(e.value)}} placeholder="Select a Country"/>
            
             <div className="lis">
            
