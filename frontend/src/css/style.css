@@ -115,3 +115,19 @@ h1{
     
 }
 
+
+  
+ul#radio {
+  background: #ffe5e5;
+  padding: 20px;
+  margin-top: 20px;
+  margin-left: 420px;
+  margin-right: 520px;
+}
+
+ul#radio li {
+  font-size: 20pt;
+  background: white;
+  margin: 5px;
+  padding: 20px;
+}

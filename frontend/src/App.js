@@ -8,7 +8,7 @@ import GenreTrackList from './GenreTrackList';
 import FavouriteList from './FavouriteList';
 import Store from './Store';
 import SignUp from './SignUp';
-
+import RadioPlayer from './RadioPlayer';
 class App extends Component {
    constructor() {
     super();
@@ -19,7 +19,8 @@ class App extends Component {
             {label: 'Genre Tracks', icon: 'pi pi-fw pi-pencil'},
             {label: 'Favourite', icon: 'pi pi-fw pi-pencil'},
             {label: 'Artists', icon: 'pi pi-fw pi-file'},
-            {label: 'Registration', icon: 'pi pi-fw pi-cog'}
+            {label: 'Registration', icon: 'pi pi-fw pi-cog'},
+            {label: 'RadioPlayer', icon: 'pi pi-fw pi-cog'}
         ],
         apasat:'Home',
         search:'',
@@ -42,6 +43,8 @@ class App extends Component {
     }
     else if(this.apasat==="Registration"){
       selectedOption=<SignUp id={1}/>
+    } else if(this.apasat==="RadioPlayer"){
+        selectedOption=<RadioPlayer/>
     }
     return (
       <div >
