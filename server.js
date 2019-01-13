@@ -729,4 +729,34 @@ app.put('/genreTracks/:id', function(request, response) {
     })
 })
 
+// find account by username
+app.get('/account/:username', async function(request,response){
+      try {
+        let account=await Accounts.findOne(
+            {
+                where:
+                {
+                    username:request.params.username
+                    
+                }
+                
+            });
+            
+        if(account){
+         //   let password = await account.password;
+            response.status(200).json(account);
+        }
+        else {
+            
+            response.status(404).send("The account was not found!");
+        }
+        
+    } catch(error){
+        
+        response.status(500).send(error.message);
+    }
+  
+});
+
+
 app.listen(8080);

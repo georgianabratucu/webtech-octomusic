@@ -10,6 +10,8 @@ import Store from './Store';
 import SignUp from './SignUp';
 import RadioPlayer from './RadioPlayer';
 import Artists from './ArtistsList';
+import Home from './Home';
+
 class App extends Component {
    constructor() {
     super();
@@ -25,6 +27,7 @@ class App extends Component {
         ],
         apasat:'Home',
         search:'',
+        showPopup: false
      
     };
        this.store=new Store();
@@ -32,6 +35,12 @@ class App extends Component {
 			this.store.addPreference(fav)
 		}
 }
+
+togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
+  }
 
   render() {
       var selectedOption;
@@ -43,11 +52,13 @@ class App extends Component {
       selectedOption=<FavouriteList id={1}/>
     }
     else if(this.apasat==="Registration"){
-      selectedOption=<SignUp id={1}/>
+      selectedOption=<SignUp/>
     } else if(this.apasat==="RadioPlayer"){
         selectedOption=<RadioPlayer/>
     }else if(this.apasat==="Artists"){
       selectedOption=<Artists/>
+    }else if(this.apasat==="Home"){
+      selectedOption=<Home/>
     }
     return (
       <div >
@@ -60,8 +71,9 @@ class App extends Component {
       
       {selectedOption}
       </div>
+    
     );
-  }
+}
 }
 
 export default App;
