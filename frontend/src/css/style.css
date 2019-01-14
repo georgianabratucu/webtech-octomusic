@@ -207,3 +207,15 @@ background-color: purple;
 .loginBTN{
     text-align: center;
 }
+
+.logoutMessage{
+
+   text-align: center;
+  color: purple;
+  font-size: 40px;
+
+}
+
+.gif{
+text-align: center;
+}
