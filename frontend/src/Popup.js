@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 //import FavouriteList from './FavouriteList';
-const SERVER="https://webtech-octomusic-bratucuiuliana.c9users.io"
+const SERVER="https://octomusic-georgianabrailoiu.c9users.io"
 class Popup extends Component{
       constructor(props) {
     super(props);
@@ -75,7 +75,7 @@ async handleClick(event){
       <div className='popup'>
       
         <div className='popup_inner'>
-          <h1>{this.props.text}</h1>
+          <h1 id="loginH1">{this.props.text}</h1>
            <form className = "form" >
         <div className="field">
                   <label className="label">Username</label>
