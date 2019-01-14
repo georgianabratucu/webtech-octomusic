@@ -14,8 +14,7 @@ class SignUp extends Component {
     this.store=new Store();
     this.handleClick=this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
+    }
 
 handleChange(event) {
     const target = event.target;
@@ -28,7 +27,9 @@ handleChange(event) {
   }
   
   handleClick(event){
-
+   const pattern = /[a-zA-Z0-9]+[.]?([a-zA-Z0-9]+)?[@][a-z]{3,9}[.][a-z]{2,5}/g;
+   const result = pattern.test(this.state.email);
+  
  var user={
     "name": this.state.name,
     "username":this.state.username,
@@ -36,7 +37,16 @@ handleChange(event) {
     "email": this.state.email,
     "birth_date":this.state.birth_date
  }
+ 
+   if(this.state.name === "" || this.state.password ==="" || this.state.username==="" || this.state.name==="" || this.state.birth_date==="" || this.state.email==="" ) {
+      alert('Please fill out all fields')
+    }else if(user.password.length<5 || user.password.length>15) {
+      alert('Password must have between 5 and 15 characters')
+    }else if(result===false){
+      alert('Invalid email! Format must be aaa@bbb.cc')
+    }else{
     this.store.postAccount(user);
+    }
  }
   
 
@@ -79,7 +89,9 @@ handleChange(event) {
                       type="email"
                       name="email"
                       value={this.state.email}
-                      onChange={this.handleChange}
+                      //onChange={this.handleChange}
+                        onChange={event => this.setState({email: event.target.value})}
+  
                     />
                   </div>
                 </div>

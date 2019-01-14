@@ -211,18 +211,25 @@ background-color: purple;
     text-align: center;
 }
 
-.logoutMessage{
+.centercontainer {
+    display: table;
+    position: absolute;
+    table-layout: fixed;
+    width: 100%;
+    height: 100%;
+}
 
+.centerelements{
+    position: absolute;
+    left:20%;
+    top:15%;
+    
    text-align: center;
   color: Thistle;
   font-size: 40px;
 
 }
-
-.gif{
-text-align: center;
-}
-
+   
 .tableFav tr:nth-child(even){background-color: green;}
 
 .tableFav tr:hover {background-color:MediumPurple;}

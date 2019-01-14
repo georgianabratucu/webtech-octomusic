@@ -148,7 +148,22 @@ app.post('/accounts',(request,response)=>{
     Accounts.create(request.body).then((account)=>{
         response.status(201).json(account);
     }).catch((error)=>{
+     let account = Accounts.findOne(
+            {
+                where:
+                {
+                    username:request.params.username
+                    
+                }
+                
+            });
+            
+        if(account){
+           
+          response.status(200).send('This account already exists')
+        }else{
         response.status(500).send(error.message);
+        }
     });
 });
 
