@@ -21,14 +21,14 @@ class Home extends Component{
             {label: 'User', icon: 'pi pi-fw pi-home'},
             {label: 'Geo Tracks', icon: 'pi pi-fw pi-calendar'},
             {label: 'Genre Tracks', icon: 'pi pi-fw pi-pencil'},
-            {label: 'Log out', icon: 'pi pi-fw pi-pencil'},
             {label: 'Artists', icon: 'pi pi-fw pi-file'},
+            {label: 'RadioPlayer', icon: 'pi pi-fw pi-cog'},
             {label: 'Registration', icon: 'pi pi-fw pi-cog'},
-            {label: 'RadioPlayer', icon: 'pi pi-fw pi-cog'}
+            {label: 'Log out', icon: 'pi pi-fw pi-pencil'}
         ],
-        apasat:'User',
+        apasat:"User",
         search:'',
-        idUser:0
+        idUser:-1
     };
     this.store=new Store();
         	this.add = (fav) => {
@@ -73,16 +73,28 @@ class Home extends Component{
       }}/>
       {selectedOption}
       
-      <p className = "logoutMessage">You have successfully logged out of your account! See you next time! :)  </p>
+      <p className = "logoutMessage">You have successfully logged out of your account! See you next time!</p>
       <div className="gif">
       <img src="https://media.giphy.com/media/l1J3CbFgn5o7DGRuE/giphy.gif" alt="loading..." />
       </div>
       </div>);
-    }
+    }else if(this.state.idUser===-1)
+     {return (
+        <div>
+       <TabMenu model={this.state.items} activeItem={this.state.activeItem} onTabChange={(e) => {this.setState({activeItem: e.value}) 
+                                                                                               this.apasat=e.value.label
+                                                                                               console.log(this.state.idUser)
+                                                                                               this.setState({idUser:0})
+      }}/>
+      {selectedOption}
+      <p className="firstPage">OCTOMUSIC APP</p>
+        </div>
+        )}
     if(this.state.idUser===0  ){
       if(this.apasat==="User"){
       return(
       <div>
+     
        <TabMenu model={this.state.items} activeItem={this.state.activeItem} onTabChange={(e) => {this.setState({activeItem: e.value}) 
                                                                                                this.apasat=e.value.label
                                                                                                console.log(this.state.idUser)
