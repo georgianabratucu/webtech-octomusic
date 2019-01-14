@@ -10,7 +10,7 @@ class Store{
     }
     async getAllGeoTracks(){
         try{
-            let response=await axios(${SERVER}/geoTrackList)
+            let response=await axios(`${SERVER}/geoTrackList`)
             this.content=response.data
             this.emitter.emit('GET_ALL_SUCCESS')
         }catch(ex){
