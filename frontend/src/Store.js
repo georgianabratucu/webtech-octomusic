@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {EventEmitter} from 'fbemitter'
 
-const SERVER='https://octomusic-georgianabrailoiu.c9users.io'
+const SERVER='https://webtech-octomusic-bratucuiuliana.c9users.io'
 
 class Store{
     constructor(){
@@ -32,7 +32,7 @@ class Store{
     }
      async getAllGenreTracks(){
         try{
-            let response=await axios(${SERVER}/genreTrackList)
+            let response=await axios(`${SERVER}/genreTrackList`)
             this.content=response.data
               this.emitter.emit('GET_ALL_SUCCESS')
             
@@ -66,7 +66,7 @@ class Store{
     }
     async addPreference(preference){
           try{
-            await axios.post(${SERVER}/preferences,preference)
+            await axios.post(`${SERVER}/preferences`,preference)
             this.getAllMusicForAnUser(preference.id_user)
               this.emitter.emit('ADD_SUCCESS')
             
@@ -114,7 +114,7 @@ class Store{
     }
     async getArtists(){
         try{
-             let response=await axios(${SERVER}/artistList)
+             let response=await axios(`${SERVER}/artistList`)
             this.content=response.data
             this.emitter.emit('GET_ALL_SUCCESS')
         }catch(ex){
@@ -123,7 +123,7 @@ class Store{
         }
     }
     async postAccount(user){
-        axios.post(${SERVER}/accounts, user)
+        axios.post(`${SERVER}/accounts`, user)
  .then(function (response) {
 alert('User successfully created!')
  })

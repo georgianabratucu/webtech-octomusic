@@ -21,9 +21,9 @@ class Favourite extends Component {
   		return (
   			<tbody>
   			<tr>
-      		 <th>{this.props.item.track_name}</th>
+      		 <td>{this.props.item.track_name}</td>
 	         <td><input type="text" name="mark" id="mark" onChange={this.handleChange} value={this.state.mark}/></td>
-	         <td><input type="button" value="save" onClick={() => {
+	         <td><input type="button" className="tableFavBtn" value="save" onClick={() => {
 	        	this.props.onSave({
 	            track_name: this.props.item.track_name,
 	        	mark : this.state.mark,
@@ -33,7 +33,7 @@ class Favourite extends Component {
 	        		isEditing : false
 	        	})
 	        }} /></td>
-  				<td><input type="button" value="cancel" onClick={() => this.setState({isEditing : false})} /></td>	
+  				<td><input type="button" className="tableFavBtn" value="cancel" onClick={() => this.setState({isEditing : false})} /></td>	
   				</tr>
   			</tbody>
   		)
@@ -43,10 +43,10 @@ class Favourite extends Component {
 	      <tbody>
 	         
 	        <tr>
-	        <th>{this.props.item.track_name}</th>
+	        <td>{this.props.item.track_name}</td>
 	        <td>{this.props.item.mark}</td>
-	      	<td><input type="button" value="delete" onClick={() => this.props.onDelete(this.props.item.id_user,this.props.item.track_name)} /></td>
-	        <td><input type="button" value="edit" onClick={() => this.setState({isEditing : true})} /></td>
+	      	<td><input type="button" className="tableFavBtn" value="delete" onClick={() => this.props.onDelete(this.props.item.id_user,this.props.item.track_name)} /></td>
+	        <td><input type="button" className="tableFavBtn" value="edit" onClick={() => this.setState({isEditing : true})} /></td>
 	        </tr>	    
 	        
 	   

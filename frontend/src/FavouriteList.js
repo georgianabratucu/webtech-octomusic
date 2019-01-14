@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Store from './Store'
 import Favourite from './Favourite'
+import './css/style.css'
 
 class FavouriteList extends Component {
 	constructor(){
@@ -36,16 +37,16 @@ class FavouriteList extends Component {
     return (
     	
 	      <div>
-	      <table border="3">
+	      <table className="tableFav">
 	      <caption>
 	      Tabel preferinte
 	      </caption>
-	      <thead>
+	      <thead id="tabelPrefTH">
 	      <tr>
 	      <th>Track name</th>
 	      <th>Mark</th>
-	      <th>Edit</th>
 	      <th>Delete</th>
+	      <th>Edit</th>
 	      </tr>
 	      </thead>
 	        { 
