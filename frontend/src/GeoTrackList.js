@@ -41,35 +41,36 @@ class GeoTrackList extends React.Component{
        
         return(
           <div>
-          
+          <div className="margin1">
+            <p id="para">Top tracks list by country</p>
            <Dropdown value={this.state.country} options={this.state.countrySelectItems} onChange={(e) => {this.setState({country: e.value});this.store.addOneGeoTrack(e.value)}} placeholder="Select a Country" 
           />
-          
+          </div>
             
             <div className="lis">
-           
+         <div id="x">  
     <List>
     
       {
-          this.state.tracks.map((e,i) => <ListItem alignItems="flex-start" key={i}>
+          this.state.tracks.map((e,i) => <ListItem alignItems="flex-start" key={i+1}>
         
         <ListItemAvatar >
           <Avatar id="b" alt="imagine melodie" src={e.image}  />
         </ListItemAvatar>
         <ListItemText
-          primary={e.rank}
+          primary={"Rank: "+(i+1)}
           secondary={
             <React.Fragment>
-              <Typography component="span" color="textPrimary">
-                {e.name}
+              <Typography id="itemListGeo">
+                {"Name: "+e.name}
               </Typography>
-              {e.listeners}
+              {"Listeners: "+e.listeners}
             </React.Fragment>
            
           }
         />
        <img id="c" 
-      value="add" src="https://tse1.mm.bing.net/th?id=OIP.oPk_awAR79Nm8Ri_FDCyrwHaHa&pid=15.1&P=0&w=30&h=30" alt="ceva"
+      value="add" src="https://us.123rf.com/450wm/faysalfarhan/faysalfarhan1710/faysalfarhan171017256/88981371-add-to-favorite-icon-isolated-on-special-black-square-button-abstract-illustration.jpg?ver=6" alt="ceva"
          
        onClick={()=>{
                 this.props.onAdd({
@@ -85,6 +86,7 @@ class GeoTrackList extends React.Component{
       )}
       
     </List>
+    </div>
     </div>
     </div>
 )}
