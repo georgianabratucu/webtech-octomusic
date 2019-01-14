@@ -225,7 +225,7 @@ text-align: center;
 
 .tableFav tr:nth-child(even){background-color: green;}
 
-.tableFav tr:hover {background-color: #ffccff;}
+.tableFav tr:hover {background-color:MediumPurple;}
    
 .tableFav {
   border-collapse: collapse;
@@ -237,10 +237,11 @@ text-align: center;
 }
 
 .tableFav td {
-  border: 2px solid purple;
+  border: 3px solid purple;
   padding: 5px;
   text-align: center;
   font-size: 13pt;
+  color: white
 }
 
 .tableFav th {
