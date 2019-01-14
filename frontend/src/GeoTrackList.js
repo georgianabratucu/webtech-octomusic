@@ -57,14 +57,14 @@ class GeoTrackList extends React.Component{
         <ListItemAvatar >
           <Avatar id="b" alt="imagine melodie" src={e.image}  />
         </ListItemAvatar>
-        <ListItemText
+        <ListItemText 
           primary={"Rank: "+(i+1)}
           secondary={
             <React.Fragment>
-              <Typography id="itemListGeo">
+              <Typography id="itemListGeo" component="span" color="textPrimary">
                 {"Name: "+e.name}
               </Typography>
-              {"Listeners: "+e.listeners}
+              {"Listeners:"+e.listeners}
             </React.Fragment>
            
           }
