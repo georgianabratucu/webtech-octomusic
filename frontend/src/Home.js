@@ -72,7 +72,11 @@ class Home extends Component{
                                                                                                this.setState({idUser:0})
       }}/>
       {selectedOption}
-      <p>Delogat </p>
+      
+      <p className = "logoutMessage">You have successfully logged out of your account! See you next time! :)  </p>
+      <div className="gif">
+      <img src="https://media.giphy.com/media/l1J3CbFgn5o7DGRuE/giphy.gif" alt="loading..." />
+      </div>
       </div>);
     }
     if(this.state.idUser===0  ){
