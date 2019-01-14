@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
-
+//import FavouriteList from './FavouriteList';
+const SERVER="https://webtech-octomusic-bratucuiuliana.c9users.io"
 class Popup extends Component{
       constructor(props) {
     super(props);
     this.state = {
       username: "",
       password: "",
-      usern:""
+      usern:"",
+      ok: 0,
+      idUser : " "
     };
 
    this.handleClick=this.handleClick.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+   this.handleChange = this.handleChange.bind(this);
   }
 
 handleChange(event) {
@@ -23,20 +25,27 @@ handleChange(event) {
     this.setState({
       [name]: value
     });
+    
   }
   
 
-handleClick(event){
+async handleClick(event){
 
  var user={
  "username":this.state.username,
  "password":this.state.password
  }
+ var a=0;
+ var id=0;
  console.log(user)
-  axios.get('http://octomusic-georgianabrailoiu.c9users.io:8080/account/'+ this.state.username).then(function (response) {
+     
+
+  await axios.get(`${SERVER}/account/`+ this.state.username).then(function (response) {
       if(user.password === response.data.password){
+          a=a+1; 
+          id=response.data.id;
           console.log(response);
-          alert('Login successfull!')
+          alert('Login successfull!');
       }
       else{
           alert('Username and password do not match');
@@ -45,19 +54,33 @@ handleClick(event){
   .catch(function (error) {
     console.log(error);
   });
+  this.setState({
+    ok:a,
+    idUser:id
+  })
+  //console.log("aici "+this.state.idUser);
+  await this.onChangeId()
  }  
-  
+ onChangeId(){
+   this.props.onId(this.state.idUser)
+ }
  render() {
-     
+     if(this.state.ok===1){
+      return (
+        <div></div>
+     )
+     }  else {
     return (
-      <div className='popup' >
+      <div className='popup'>
+      
         <div className='popup_inner'>
           <h1>{this.props.text}</h1>
-           <form className = "form">
+           <form className = "form" >
         <div className="field">
                   <label className="label">Username</label>
                   <div className="control">
                     <input
+                    id="idInput"
                       className="input"
                       type="text"
                       name="username"
@@ -79,13 +102,15 @@ handleClick(event){
                     />
                   </div>
                 </div>
-        <input className ="button"type="button" value="Login"onClick={this.handleClick} />
+        <input className ="button"type="button" value="Login"onClick={this.handleClick}/>
         <input className ="button"type="button" value="Close"onClick={this.props.closePopup} />
+        
       </form>
     
         </div>
       </div>
     );
+     }
   }
 }
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-
+import Store from './Store'
 class SignUp extends Component {
     constructor(props) {
     super(props);
@@ -12,7 +11,7 @@ class SignUp extends Component {
       birth_date: ""
 
     };
-
+    this.store=new Store();
     this.handleClick=this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -37,14 +36,7 @@ handleChange(event) {
     "email": this.state.email,
     "birth_date":this.state.birth_date
  }
- axios.post("http://octomusic-georgianabrailoiu.c9users.io:8080/accounts", user)
- .then(function (response) {
-alert('User successfully created!')
- })
- .catch(function (error) {
- console.log(error);
-  alert('User could not be saved')
- });
+    this.store.postAccount(user);
  }
   
 
@@ -68,6 +60,7 @@ alert('User successfully created!')
                   <label className="label">Name</label>
                   <div className="control">
                     <input
+                      id="idInput"
                       className="input"
                       type="text"
                       name="name"
@@ -81,6 +74,7 @@ alert('User successfully created!')
                   <label className="label">Email Address</label>
                   <div className="control">
                     <input
+                    id="idInput1"
                       className="input"
                       type="email"
                       name="email"
@@ -94,6 +88,7 @@ alert('User successfully created!')
                   <label className="label">Username</label>
                   <div className="control">
                     <input
+                    id="idInput2"
                       className="input"
                       type="text"
                       name="username"
@@ -120,6 +115,7 @@ alert('User successfully created!')
                   <label className="label">Birthday</label>
                   <div className="control">
                     <input
+                    id="idInput3"
                       className="input"
                       type="text"
                       name="birth_date"

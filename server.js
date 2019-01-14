@@ -438,7 +438,7 @@ app.post('/geoTracks/:country',(request,response)=>{
    axios.get(url).then(async(result) => {
         
         for(let i=0;i<20;i++){
-        var name=result.data.tracks.track[i].name;
+        var name=result.data.tracks.track[i].name.split("?")[0];
         var no_of_listeners=result.data.tracks.track[i].listeners;
         var url=result.data.tracks.track[i].url;
         var image=result.data.tracks.track[i].image[3]['#text'];
@@ -572,7 +572,7 @@ app.post('/genreTracks/:genre',(request,response)=>{
     });
     axios.get(url).then(async(result) => {
     for(var i=0;i<20;i++){
-        var name=result.data.tracks.track[i].name;
+        var name=result.data.tracks.track[i].name.split("?")[0];
         var duration=result.data.tracks.track[i].duration;
         var url=result.data.tracks.track[i].url;
         var image=result.data.tracks.track[i].image[3]['#text'];

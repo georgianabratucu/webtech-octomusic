@@ -1,33 +1,123 @@
 import React, { Component } from 'react';
+import 'primereact/resources/themes/nova-light/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import {TabMenu} from 'primereact/tabmenu';
+import GeoTrackList from './GeoTrackList';
+import GenreTrackList from './GenreTrackList';
+import FavouriteList from './FavouriteList';
+import Store from './Store';
+import SignUp from './SignUp';
+import RadioPlayer from './RadioPlayer';
+import Artists from './ArtistsList';
 import Popup from './Popup';
 
 class Home extends Component{
-     constructor() {
-    super();
+     constructor(props) {
+    super(props);
     this.state = {
-      showPopup: false
+      showPopup: false,
+      items: [
+            {label: 'User', icon: 'pi pi-fw pi-home'},
+            {label: 'Geo Tracks', icon: 'pi pi-fw pi-calendar'},
+            {label: 'Genre Tracks', icon: 'pi pi-fw pi-pencil'},
+            {label: 'Log out', icon: 'pi pi-fw pi-pencil'},
+            {label: 'Artists', icon: 'pi pi-fw pi-file'},
+            {label: 'Registration', icon: 'pi pi-fw pi-cog'},
+            {label: 'RadioPlayer', icon: 'pi pi-fw pi-cog'}
+        ],
+        apasat:'User',
+        search:'',
+        idUser:0
     };
+    this.store=new Store();
+        	this.add = (fav) => {
+			this.store.addPreference(fav)
+		}
+		
   }
   togglePopup() {
     this.setState({
       showPopup: !this.state.showPopup
     });
   }
+ onChangeId(newId){
+   this.setState({
+     idUser:newId
+   })
+ }
+   
   render() {
-    return (   <div>
+    var selectedOption;
+    if(this.apasat==='Geo Tracks'){
+      selectedOption=<GeoTrackList onAdd={this.add} id={this.state.idUser}/>
+    }else if(this.apasat==='Genre Tracks') {
+       selectedOption=<GenreTrackList id={this.state.idUser}/>
+    }
+    else if(this.apasat==="Registration"){
+      selectedOption=<SignUp/>
+    } else if(this.apasat==="RadioPlayer"){
+        selectedOption=<RadioPlayer/>
+    }else if(this.apasat==="Artists"){
+      selectedOption=<Artists/>
+    }else if(this.apasat==="User" && this.state.idUser!==0){
+     selectedOption= <FavouriteList id={this.state.idUser} />
+    }else if(this.apasat==="Log out"){
+     
+       return(
+      <div>
+       <TabMenu model={this.state.items} activeItem={this.state.activeItem} onTabChange={(e) => {this.setState({activeItem: e.value}) 
+                                                                                               this.apasat=e.value.label
+                                                                                               console.log(this.state.idUser)
+                                                                                               this.setState({idUser:0})
+      }}/>
+      {selectedOption}
+      <p>Delogat </p>
+      </div>);
+    }
+    if(this.state.idUser===0  ){
+      if(this.apasat==="User"){
+      return(
+      <div>
+       <TabMenu model={this.state.items} activeItem={this.state.activeItem} onTabChange={(e) => {this.setState({activeItem: e.value}) 
+                                                                                               this.apasat=e.value.label
+                                                                                               console.log(this.state.idUser)
+                                                                                               
+      }}/>
+      {selectedOption}
       <h1>Would you like to Log In?</h1>
       <div className="loginBTN">
       <button className="buton" onClick={this.togglePopup.bind(this)}>YES</button>
        {this.state.showPopup ? 
-          <Popup
+          (<Popup
             text='Login'
             closePopup={this.togglePopup.bind(this)}
-          />
+            onId={this.onChangeId.bind(this)}/>)
           : null
         }
       </div>
+      </div>);}else{
+        return(<div>
+        <TabMenu model={this.state.items} activeItem={this.state.activeItem} onTabChange={(e) => {this.setState({activeItem: e.value}) 
+                                                                                               this.apasat=e.value.label
+                                                                                               console.log(this.state.idUser)
+                                                                                               
+      }}/>
+       {selectedOption}
+      </div>);
+      }
+    }else{
+    return (   
+    <div>
+    <TabMenu model={this.state.items} activeItem={this.state.activeItem} onTabChange={(e) => {this.setState({activeItem: e.value}) 
+                                                                                               this.apasat=e.value.label
+                                                                                               console.log(this.state.idUser)
+                                                                                               
+      }}/>
+      {selectedOption}
+      
       </div>
-      );
+      );}
   }
 }
 

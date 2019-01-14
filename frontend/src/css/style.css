@@ -81,7 +81,7 @@
   transform: translateY(4px);
 }
 
-input[type=text],input[type = password],input[type="email"]
+#idInput,#idInput1,#idInput2,#idInput3,input[type = password],input[type="email"]
 {
   width: 20%;
   padding: 12px 20px;

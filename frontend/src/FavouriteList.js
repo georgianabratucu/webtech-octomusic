@@ -6,7 +6,8 @@ class FavouriteList extends Component {
 	constructor(){
 		super()
 		this.state = {
-			fav : []
+			fav : [],
+			idUser:""
 		}
 		this.store = new Store()
 	
@@ -16,16 +17,21 @@ class FavouriteList extends Component {
 		this.save = (fav,id) => {
 			this.store.saveFav(fav, id)
 		}
+		
 	}
 	componentDidMount(){
 	    var id=this.props.id;
 		this.store.getAllMusicForAnUser(id)
 		this.store.emitter.addListener('GET_ALL_SUCCESS', () => {
 			this.setState({
-				fav : this.store.content
+				fav : this.store.content,
+				idUser:this.props.id
 			})
+			console.log("a"+id);
 		})
+		
 	}
+
   render() {
     return (
     	

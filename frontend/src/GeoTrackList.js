@@ -10,8 +10,8 @@ import {Dropdown} from 'primereact/dropdown';
 import './css/style.css';
 
 class GeoTrackList extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state={
             tracks:[],
             country:'',
@@ -21,7 +21,7 @@ class GeoTrackList extends React.Component{
     {label: 'Spania', value: 'spain'},
     {label: 'Romania', value: 'romania'},
     {label: 'Germania', value: 'germany'}
-]
+],idUser:" "
         }
       this.store=new GeoTracksStore()  
     }
@@ -32,16 +32,20 @@ class GeoTrackList extends React.Component{
                 tracks:this.store.content
             })
         })
+       this.setState({idUser:20})
         
-      
     }
+   
     render(){
         var id=this.props.id;
+       
         return(
           <div>
           
-           <Dropdown value={this.state.country} options={this.state.countrySelectItems} onChange={(e) => {this.setState({country: e.value});this.store.addOneGeoTrack(e.value)}} placeholder="Select a Country"/>
-           
+           <Dropdown value={this.state.country} options={this.state.countrySelectItems} onChange={(e) => {this.setState({country: e.value});this.store.addOneGeoTrack(e.value)}} placeholder="Select a Country" 
+          />
+          
+            
             <div className="lis">
            
     <List>
@@ -66,15 +70,16 @@ class GeoTrackList extends React.Component{
         />
        <img id="c" 
       value="add" src="https://tse1.mm.bing.net/th?id=OIP.oPk_awAR79Nm8Ri_FDCyrwHaHa&pid=15.1&P=0&w=30&h=30" alt="ceva"
+         
        onClick={()=>{
                 this.props.onAdd({
       			track_name :e.name,
       			mark : 0,
       			id_user:id
       		})
-           alert("pus")
+           alert("pus");
            
-       }}/>
+        }}/>
        
      </ListItem>
       )}

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {EventEmitter} from 'fbemitter'
 
-const SERVER='https://octomusic-georgianabrailoiu.c9users.io'
+const SERVER='https://webtech-octomusic-bratucuiuliana.c9users.io'
 
 class Store{
     constructor(){
@@ -55,7 +55,7 @@ class Store{
     
     async getAllMusicForAnUser(idUser){
         try{
-            let response=await axios(`${SERVER}/userPreferences/`+1)
+            let response=await axios(`${SERVER}/userPreferences/`+idUser)
             this.content=response.data
               this.emitter.emit('GET_ALL_SUCCESS')
             
@@ -67,7 +67,7 @@ class Store{
     async addPreference(preference){
           try{
             await axios.post(`${SERVER}/preferences`,preference)
-            this.getAllMusicForAnUser()
+            this.getAllMusicForAnUser(preference.id_user)
               this.emitter.emit('ADD_SUCCESS')
             
         } catch(ex){
@@ -121,6 +121,16 @@ class Store{
             console.log(ex)
             this.emitter.emit('GET_ALL_ERROR')
         }
+    }
+    async postAccount(user){
+        axios.post(`${SERVER}/accounts`, user)
+ .then(function (response) {
+alert('User successfully created!')
+ })
+ .catch(function (error) {
+ console.log(error);
+  alert('User could not be saved')
+ });
     }
 }
 export default Store
