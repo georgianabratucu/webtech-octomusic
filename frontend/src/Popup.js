@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 //import FavouriteList from './FavouriteList';
-const SERVER="https://webtech-octomusic-bratucuiuliana.c9users.io"
+const SERVER="https://octomusic-georgianabrailoiu.c9users.io"
 class Popup extends Component{
       constructor(props) {
     super(props);
@@ -53,6 +53,7 @@ async handleClick(event){
   })
   .catch(function (error) {
     console.log(error);
+     alert('Username does not exist!');
   });
   this.setState({
     ok:a,
