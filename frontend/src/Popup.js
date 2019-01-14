@@ -75,7 +75,7 @@ async handleClick(event){
       <div className='popup'>
       
         <div className='popup_inner'>
-          <h1>{this.props.text}</h1>
+          <h1 id="loginH1">{this.props.text}</h1>
            <form className = "form" >
         <div className="field">
                   <label className="label">Username</label>
