@@ -20,10 +20,12 @@ class GenreTrackList extends Component{
                   {label:'disco', value:'disco'
               }
               ],
-          idUser:0
+          idUser:0,
+          pref:[]
       }
       this.store=new GenreTracksStore();
       this.store1=new GenreTracksStore();
+      this.store2=new GenreTracksStore();
   }
   componentDidMount(){
       this.setState({idUser:this.props.id})
@@ -32,15 +34,25 @@ class GenreTrackList extends Component{
           this.setState({
               genreMusic:this.store.content
           })})
+      if(this.props.id!==0){
+        this.store2.getAllMusicForAnUser(this.props.id)
+        this.store2.emitter.addListener('GET_ALL_SUCCESS',()=>{
+            this.setState({
+                pref:this.store2.content
+            })
+        })
+        }
   }
     render(){
   return (
      <div className='divnou'>
+      <div className="margin1">
+            <p id="para">Top tracks list by country</p>
      <Dropdown value={this.state.genre} options={this.state.genres} onChange={(e) => {console.log(this.state.idUser);this.setState({genre: e.value});this.store.addGenreList(e.value);   this.store.emitter.addListener('GET_ALL_SUCCESS',()=>{
           this.setState({
               genreMusic:this.store.content
           })
-      })}} placeholder="pop"/>
+      })}} placeholder="pop"/></div>
       <br/>
       <br/>
       <GridList className='gridList' cols={4.5}>
@@ -51,7 +63,31 @@ class GenreTrackList extends Component{
               title ={tile.name}
               actionIcon={
                 <IconButton>
-                <img src='https://static.addtoany.com/images/icon-200-3.png' alt='adauga' width='20' height='20' onClick={(e)=>{this.store1.addPreference({track_name:tile.name, mark:1,id_user:this.props.id}); alert("Piesa adaugata cu succes!")}}></img>
+                <img src='https://static.addtoany.com/images/icon-200-3.png' alt='adauga' width='20' height='20' onClick={async(e)=>{
+                if(this.props.id===0){
+                  alert('Nu sunteti logat!');
+                } else {
+               
+                  await this.store2.getAllMusicForAnUser(this.props.id)
+                   this.store2.emitter.addListener('GET_ALL_SUCCESS',()=>{
+                   this.setState({
+                   pref:this.store2.content
+               })
+          })
+                var gasit=0;
+                for(var i=0;i<this.state.pref.length;i++){
+                if(this.state.pref[i].track_name===tile.name){
+                    gasit=1;
+                }
+            }
+                if(gasit===0){
+                this.store1.addPreference({track_name:tile.name, mark:1,id_user:this.props.id}); 
+                alert("Piesa adaugata cu succes!")}
+                  else {
+                    alert("Exista deja!")
+                  }
+                }}}>
+                </img>
                 </IconButton>
               }
             />

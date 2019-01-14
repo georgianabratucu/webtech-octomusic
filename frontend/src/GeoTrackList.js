@@ -21,9 +21,12 @@ class GeoTrackList extends React.Component{
     {label: 'Spania', value: 'spain'},
     {label: 'Romania', value: 'romania'},
     {label: 'Germania', value: 'germany'}
-],idUser:" "
+],
+    idUser:0,
+    pref:[]
         }
-      this.store=new GeoTracksStore()  
+      this.store=new GeoTracksStore()
+      this.store2=new GeoTracksStore()
     }
     componentDidMount(){
         this.store.getAllGeoTracks()
@@ -32,7 +35,14 @@ class GeoTrackList extends React.Component{
                 tracks:this.store.content
             })
         })
-       this.setState({idUser:20})
+        if(this.props.id!==0){
+        this.store2.getAllMusicForAnUser(this.props.id)
+        this.store2.emitter.addListener('GET_ALL_SUCCESS',()=>{
+            this.setState({
+                pref:this.store2.content
+            })
+        })
+        }
         
     }
    
@@ -72,14 +82,35 @@ class GeoTrackList extends React.Component{
        <img id="c" 
       value="add" src="https://us.123rf.com/450wm/faysalfarhan/faysalfarhan1710/faysalfarhan171017256/88981371-add-to-favorite-icon-isolated-on-special-black-square-button-abstract-illustration.jpg?ver=6" alt="ceva"
          
-       onClick={()=>{
+        onClick={async()=>{ console.log(this.state.idUser);
+      
+                if(this.props.id===0){
+                    alert("Nu sunteti logat!");
+                } else {
+                 
+              await this.store2.getAllMusicForAnUser(this.props.id)
+               this.store2.emitter.addListener('GET_ALL_SUCCESS',()=>{
+               this.setState({
+                pref:this.store2.content
+              })
+            })
+            var gasit=0;
+            for(var i=0;i<this.state.pref.length;i++){
+                if(this.state.pref[i].track_name===e.name){
+                    gasit=1;
+                }
+            }
+            if(gasit===0){
                 this.props.onAdd({
       			track_name :e.name,
       			mark : 0,
       			id_user:id
       		})
            alert("pus");
-           
+                } else {
+                    alert('Exista deja!');
+                }
+                } 
         }}/>
        
      </ListItem>

@@ -26,12 +26,12 @@ class RadioPlayer extends Component {
   render() {
     return (
       <div>
-      
+      <h1 align='center'>Listen your favourite radio channel!</h1>
        <ul id="radio">
       {
-        this.state.radio.map((e, i)=><li key={i} onClick={()=>{console.log("play")}}>
+        this.state.radio.map((e, i)=><li key={i}><div align="center" onClick={()=>{console.log("play")}}>
         {e.name} <ReactPlayer url={e.link} controls height="15px" width="200px"/>
-        </li>)
+        </div></li>)
       }
       </ul>
       </div>
