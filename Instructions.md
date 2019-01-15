@@ -6,13 +6,13 @@
 
 * npm install
 
-**If you have a version prior to v7.6.0, then you should update your version using the following commands in bash:**
+* npm install v8
 
-* nvm install 7.8.0
+**If you have a version prior to v8, then you should update your version using the following commands in bash:**
 
-* nvm use 7.8.0
+* nvm install v8
 
-* nvm alias default v7.8.0
+* nvm use default v8
 
 
 # DATABASE CONFIGURATION
@@ -26,5 +26,16 @@
 * exit;
 
 To create the tables you should call the endpoint **/creatingTables** and then you can play with the various CRUD operations applied to the tables.
+
+
+# FRONTEND CONFIGURATION
+
+* cd frontend
+
+* npm install
+
+* npm run build
+
+* npm start
 
 # HAVE FUN!
