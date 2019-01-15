@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {EventEmitter} from 'fbemitter'
 
-const SERVER='https://webtech-octomusic-bratucuiuliana.c9users.io'
+const SERVER='https://webtech-octomusic-bratucugeorgiana.c9users.io'
 
 class Store{
     constructor(){
@@ -11,6 +11,16 @@ class Store{
     async getAllGeoTracks(){
         try{
             let response=await axios(`${SERVER}/geoTrackList`)
+            this.content=response.data
+            this.emitter.emit('GET_ALL_SUCCESS')
+        }catch(ex){
+            console.log(ex)
+            this.emitter.emit('GET_ALL_ERROR')
+        }
+    }
+    async getAllAccounts(){
+        try{
+            let response=await axios(`${SERVER}/accountList`)
             this.content=response.data
             this.emitter.emit('GET_ALL_SUCCESS')
         }catch(ex){

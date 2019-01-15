@@ -15,7 +15,7 @@ class SignUp extends Component {
     this.handleClick=this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     }
-
+    
 handleChange(event) {
     const target = event.target;
     const value = target.value;
@@ -26,7 +26,7 @@ handleChange(event) {
     });
   }
   
-  handleClick(event){
+ handleClick(event){
    const pattern = /[a-zA-Z0-9]+[.]?([a-zA-Z0-9]+)?[@][a-z]{3,9}[.][a-z]{2,5}/g;
    const result = pattern.test(this.state.email);
   
@@ -37,14 +37,15 @@ handleChange(event) {
     "email": this.state.email,
     "birth_date":this.state.birth_date
  }
- 
+    
    if(this.state.name === "" || this.state.password ==="" || this.state.username==="" || this.state.name==="" || this.state.birth_date==="" || this.state.email==="" ) {
       alert('Please fill out all fields')
     }else if(user.password.length<5 || user.password.length>15) {
       alert('Password must have between 5 and 15 characters')
     }else if(result===false){
       alert('Invalid email! Format must be aaa@bbb.cc')
-    }else{
+    }
+    else{
     this.store.postAccount(user);
     }
  }

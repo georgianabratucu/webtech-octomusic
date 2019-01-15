@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-//import FavouriteList from './FavouriteList';
-const SERVER="https://webtech-octomusic-bratucuiuliana.c9users.io"
+import Store from './Store'
+const SERVER="https://webtech-octomusic-bratucugeorgiana.c9users.io"
 class Popup extends Component{
       constructor(props) {
     super(props);
@@ -10,12 +10,21 @@ class Popup extends Component{
       password: "",
       usern:"",
       ok: 0,
-      idUser : " "
+      idUser : " ",
+      accounts:[]
     };
-
+   this.storeVerif=new Store();
    this.handleClick=this.handleClick.bind(this);
    this.handleChange = this.handleChange.bind(this);
   }
+componentDidMount(){
+        this.storeVerif.getAllAccounts()
+        this.storeVerif.emitter.addListener('GET_ALL_SUCCESS',()=>{
+            this.setState({
+                accounts:this.storeVerif.content
+            })
+        })
+}
 
 handleChange(event) {
     const target = event.target;
@@ -38,8 +47,17 @@ async handleClick(event){
  var a=0;
  var id=0;
  console.log(user)
-     
-
+ await this.storeVerif.getAllAccounts()
+ this.storeVerif.emitter.addListener("GET_ALL_SUCCESS",()=>{
+    this.setState({accounts:this.storeVerif.content})
+    })
+ var gasit =0;
+  for(var i=0;i<this.state.accounts.length;i++){
+    if(this.state.accounts[i].username===this.state.username){
+      gasit=1;
+      }
+    }
+ if(gasit===1){
   await axios.get(`${SERVER}/account/`+ this.state.username).then(function (response) {
       if(user.password === response.data.password){
           a=a+1; 
@@ -59,12 +77,16 @@ async handleClick(event){
     ok:a,
     idUser:id
   })
-  //console.log("aici "+this.state.idUser);
-  await this.onChangeId()
+    await this.onChangeId()
+ }else{
+    alert("This account does not exists")
+  }
+ 
  }  
  onChangeId(){
    this.props.onId(this.state.idUser)
  }
+  
  render() {
      if(this.state.ok===1){
       return (
