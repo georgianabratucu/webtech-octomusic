@@ -235,7 +235,7 @@ app.put('/updateAccount/:username',async function(request,response){
 });
 
 //delete an account by username
-app.delete("/account/:username", async function(request,response){
+app.delete("/accountd/:username", async function(request,response){
     try{
         
         let account= await Accounts.findOne(
@@ -257,7 +257,20 @@ app.delete("/account/:username", async function(request,response){
         response.status(500).send(error.message);
     }
 });
-
+//delete an account by id
+app.delete("/account/:id",function(request,response){
+   Accounts.findById(request.params.id).then(function(account){
+       if(account){
+          account.destroy();
+          response.status(200).send("The account was deleted!");
+      }
+      else
+      {
+          response.status(404).send("The account was not found!");
+      }
+   })
+      
+});
 //insert new records the Preferences table
 app.post('/preferences',(request,response)=>{
     Preferences.create(request.body).then(preference=>{

@@ -24,16 +24,19 @@ class Home extends Component{
             {label: 'Artists', icon: 'pi pi-fw pi-file'},
             {label: 'RadioPlayer', icon: 'pi pi-fw pi-cog'},
             {label: 'Registration', icon: 'pi pi-fw pi-cog'},
+            {label: 'Delete account', icon: 'pi pi-fw pi-pencil'},
             {label: 'Log out', icon: 'pi pi-fw pi-pencil'}
         ],
         apasat:"User",
         search:'',
         idUser:-1
     };
+    this.storeDeleteAccount=new Store();
     this.store=new Store();
         	this.add = (fav) => {
 			this.store.addPreference(fav)
 		}
+    
 		
   }
   togglePopup() {
@@ -62,8 +65,34 @@ class Home extends Component{
       selectedOption=<Artists/>
     }else if(this.apasat==="User" && this.state.idUser!==0){
      selectedOption= <FavouriteList id={this.state.idUser} />
-    }else if(this.apasat==="Log out"){
-     
+    }else if(this.apasat==='Delete account'){
+        if(this.state.idUser!==0){
+            this.storeDeleteAccount.deleteAccount(this.state.idUser);
+            this.storeDeleteAccount.emitter.addListener('DELETE_SUCCESS',()=>{
+               this.setState({
+                   idUser:0
+               })
+            })
+            return(<div> 
+         <TabMenu model={this.state.items} activeItem={this.state.activeItem} onTabChange={(e) => {this.setState({activeItem: e.value}) 
+                                                                                               this.apasat=e.value.label
+                                                                                               console.log(this.state.idUser)
+                                                                                               this.setState({idUser:0})
+      }}/>
+      {selectedOption}
+         <p className="logOutPage">Account deleted!</p></div>)
+        } else {
+            return(<div> 
+         <TabMenu model={this.state.items} activeItem={this.state.activeItem} onTabChange={(e) => {this.setState({activeItem: e.value}) 
+                                                                                               this.apasat=e.value.label
+                                                                                               console.log(this.state.idUser)
+                                                                                               this.setState({idUser:0})
+      }}/>
+      {selectedOption}
+         <p className="logOutPage">You are not logged in!</p></div>)
+     }
+    } else if(this.apasat==="Log out"){
+     if(this.state.idUser!==0){
        return(
       <div>
        <TabMenu model={this.state.items} activeItem={this.state.activeItem} onTabChange={(e) => {this.setState({activeItem: e.value}) 
@@ -79,6 +108,16 @@ class Home extends Component{
       </div>
       </div>
       </div>);
+     } else {
+         return(<div> 
+         <TabMenu model={this.state.items} activeItem={this.state.activeItem} onTabChange={(e) => {this.setState({activeItem: e.value}) 
+                                                                                               this.apasat=e.value.label
+                                                                                               console.log(this.state.idUser)
+                                                                                               this.setState({idUser:0})
+      }}/>
+      {selectedOption}
+         <p className="logOutPage">You are not logged in!</p></div>)
+     }
     }else if(this.state.idUser===-1)
      {return (
         <div>

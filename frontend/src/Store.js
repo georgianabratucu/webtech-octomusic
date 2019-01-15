@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {EventEmitter} from 'fbemitter'
 
-const SERVER='https://webtech-octomusic-bratucugeorgiana.c9users.io'
+const SERVER='https://webtech-octomusic-bratucuiuliana.c9users.io'
 
 class Store{
     constructor(){
@@ -132,7 +132,18 @@ class Store{
             this.emitter.emit('GET_ALL_ERROR')
         }
     }
-    
+     async deleteAccount(id){
+		try{
+			await axios.delete(`${SERVER}/account/`+id)
+			this.getAllAccounts()
+			this.emitter.emit('DELETE_SUCCESS')			
+		}
+		catch(ex){
+			console.warn(ex)
+			this.emitter.emit('DELETE_ERROR')
+		}
+	}
+
     async postAccount(user){
         axios.post(`${SERVER}/accounts`, user)
     .then(function (response) {

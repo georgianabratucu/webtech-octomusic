@@ -16,11 +16,16 @@ class GeoTrackList extends React.Component{
             tracks:[],
             country:'',
      countrySelectItems :[
-    {label: 'Italia', value: 'italy'},
-    {label: 'Franta', value: 'france'},
-    {label: 'Spania', value: 'spain'},
+    {label: 'Italy', value: 'italy'},
+    {label: 'France', value: 'france'},
+    {label: 'Spain', value: 'spain'},
     {label: 'Romania', value: 'romania'},
-    {label: 'Germania', value: 'germany'}
+    {label: 'Germany', value: 'germany'},
+    {label: 'Hungary', value: 'hungary'},
+    {label: 'Greece', value: 'greece'},
+    {label: 'India', value: 'india'},
+    {label: 'Poland', value: 'poland'},
+    {label: 'Finland', value: 'finland'}
 ],
     idUser:0,
     pref:[]
@@ -29,6 +34,7 @@ class GeoTrackList extends React.Component{
       this.store2=new GeoTracksStore()
     }
     componentDidMount(){
+        this.store.addOneGeoTrack('italy')
         this.store.getAllGeoTracks()
         this.store.emitter.addListener('GET_ALL_SUCCESS',()=>{
             this.setState({
@@ -53,7 +59,7 @@ class GeoTrackList extends React.Component{
           <div>
           <div className="margin1">
             <p id="para">Top tracks list by country</p>
-           <Dropdown value={this.state.country} options={this.state.countrySelectItems} onChange={(e) => {this.setState({country: e.value});this.store.addOneGeoTrack(e.value)}} placeholder="Select a Country" 
+           <Dropdown value={this.state.country} options={this.state.countrySelectItems} onChange={(e) => {this.setState({country: e.value});this.store.addOneGeoTrack(e.value)}} placeholder="Italy" 
           />
           </div>
             
@@ -74,7 +80,7 @@ class GeoTrackList extends React.Component{
               <Typography id="itemListGeo" component="span" color="textPrimary">
                 {"Name: "+e.name}
               </Typography>
-              {"Listeners:"+e.listeners}
+              {"Listeners: "+e.listeners}
             </React.Fragment>
            
           }

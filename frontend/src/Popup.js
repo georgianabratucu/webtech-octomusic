@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Store from './Store'
-const SERVER="https://webtech-octomusic-bratucugeorgiana.c9users.io"
+const SERVER="https://webtech-octomusic-bratucuiuliana.c9users.io"
 class Popup extends Component{
       constructor(props) {
     super(props);

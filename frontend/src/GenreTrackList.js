@@ -14,11 +14,13 @@ class GenreTrackList extends Component{
           genreMusic:[],
           genre:"",
           genres:[
-              {
-                  label:'pop', value:'pop'
-                  },
-                  {label:'disco', value:'disco'
-              }
+              {label:'pop', value:'pop'},
+              {label:'disco', value:'disco'},
+              {label:'country', value:'country'},
+              {label:'classical', value:'classical'},
+              {label:'jazz', value:'jazz'},
+              {label:'instrumental', value:'instrumental'},
+              {label:'folk', value:'folk'}
               ],
           idUser:0,
           pref:[]
@@ -29,6 +31,12 @@ class GenreTrackList extends Component{
   }
   componentDidMount(){
       this.setState({idUser:this.props.id})
+      this.store.addGenreList('pop');   
+      this.store.emitter.addListener('GET_ALL_SUCCESS',()=>{
+          this.setState({
+              genreMusic:this.store.content
+          })
+      })
       this.store.getAllGenreTracks()
       this.store.emitter.addListener('GET_ALL_SUCCESS',()=>{
           this.setState({
@@ -52,7 +60,7 @@ class GenreTrackList extends Component{
           this.setState({
               genreMusic:this.store.content
           })
-      })}} placeholder="Choose a genre"/></div>
+      })}} placeholder="pop"/></div>
       <br/>
       <br/>
       <GridList className='gridList' cols={4.5}>
