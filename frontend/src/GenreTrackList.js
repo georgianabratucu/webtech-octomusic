@@ -89,7 +89,7 @@ class GenreTrackList extends Component{
                 }
             }
                 if(gasit===0){
-                this.store1.addPreference({track_name:tile.name, mark:1,id_user:this.props.id}); 
+                this.store1.addPreference({track_name:tile.name, mark:0,id_user:this.props.id}); 
                 alert("Track successfully added to your favourites!")}
                   else {
                     alert("Track already added to your favourites!")

@@ -6,13 +6,14 @@
 
 * npm install
 
-* npm install v8
 
 **If you have a version prior to v8, then you should update your version using the following commands in bash:**
 
-* nvm install v8
+* nvm install 8
 
-* nvm use default v8
+* nvm use 8
+
+* nvm alias default v8
 
 
 # DATABASE CONFIGURATION
@@ -33,6 +34,8 @@ To create the tables you should call the endpoint **/creatingTables** and then y
 * cd frontend
 
 * npm install
+
+* go to frontend -> src -> Store.js and Popup.js and change the SERVER constant with your address.
 
 * npm run build
 
