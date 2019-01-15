@@ -74,7 +74,7 @@ class Home extends Component{
       {selectedOption}
       <div className="centercontainer">
       <div className="centerelements">
-      <p className = "logoutMessage">You have successfully logged out of your account! See you next time! 🙂  </p>
+      <p className = "logoutMessage">You have successfully logged out of your account! See you next time! </p>
       <img src="https://media.giphy.com/media/l1J3CbFgn5o7DGRuE/giphy.gif" alt="loading..." />
       </div>
       </div>
