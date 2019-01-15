@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {EventEmitter} from 'fbemitter'
 
-const SERVER='https://webtech-octomusic-bratucuiuliana.c9users.io'
+const SERVER=' https://octomusic-georgianabrailoiu.c9users.io'
 
 class Store{
     constructor(){

@@ -73,7 +73,7 @@ class GenreTrackList extends Component{
                 <IconButton>
                 <img src='https://static.addtoany.com/images/icon-200-3.png' alt='adauga' width='20' height='20' onClick={async(e)=>{
                 if(this.props.id===0){
-                  alert('Nu sunteti logat!');
+                  alert('You are not logged in!');
                 } else {
                
                   await this.store2.getAllMusicForAnUser(this.props.id)
@@ -90,9 +90,9 @@ class GenreTrackList extends Component{
             }
                 if(gasit===0){
                 this.store1.addPreference({track_name:tile.name, mark:1,id_user:this.props.id}); 
-                alert("Piesa adaugata cu succes!")}
+                alert("Track successfully added to your favourites!")}
                   else {
-                    alert("Exista deja!")
+                    alert("Track already added to your favourites!")
                   }
                 }}}>
                 </img>

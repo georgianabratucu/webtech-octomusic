@@ -91,7 +91,7 @@ class GeoTrackList extends React.Component{
         onClick={async()=>{ console.log(this.state.idUser);
       
                 if(this.props.id===0){
-                    alert("Nu sunteti logat!");
+                    alert("You are not logged in!");
                 } else {
                  
               await this.store2.getAllMusicForAnUser(this.props.id)
@@ -112,9 +112,9 @@ class GeoTrackList extends React.Component{
       			mark : 0,
       			id_user:id
       		})
-           alert("pus");
+           alert("Track successfully added to your favourites!");
                 } else {
-                    alert('Exista deja!');
+                    alert('Track already added to your favourites!');
                 }
                 } 
         }}/>

@@ -26,7 +26,7 @@ class RadioPlayer extends Component {
   render() {
     return (
       <div>
-      <h1 align='center'>Listen your favourite radio channel!</h1>
+      <h1 align='center'>Listen to your favourite radio channel!</h1>
        <ul id="radio">
       {
         this.state.radio.map((e, i)=><li key={i}><div align="center" onClick={()=>{console.log("play")}}>
