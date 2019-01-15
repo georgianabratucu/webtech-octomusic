@@ -11,18 +11,24 @@ class ArtistsList extends Component {
         layout: 'list',
         country:'',
      countrySelectItems :[
-    {label: 'Italia', value: 'italy'},
-    {label: 'Franta', value: 'france'},
-    {label: 'Spania', value: 'spain'},
+   {label: 'Italy', value: 'italy'},
+    {label: 'France', value: 'france'},
+    {label: 'Spain', value: 'spain'},
     {label: 'Romania', value: 'romania'},
-    {label: 'Germania', value: 'germany'}
+    {label: 'Germany', value: 'germany'},
+    {label: 'Hungary', value: 'hungary'},
+    {label: 'Greece', value: 'greece'},
+    {label: 'India', value: 'india'},
+    {label: 'Poland', value: 'poland'},
+    {label: 'Finland', value: 'finland'}
 ]
     };
     this.store = new Store();
-    this.store.addArtists('romania');
+    
 }
 
 componentDidMount() {
+    this.store.addArtists('romania');
     this.store.getArtists()
         this.store.emitter.addListener('GET_ALL_SUCCESS',()=>{
             this.setState({
@@ -46,7 +52,7 @@ render(){
      <div>
      <div className="margin1">
      <p id="para">Artists top list by country</p>
-     <Dropdown value={this.state.country} options={this.state.countrySelectItems} onChange={(e) => {this.setState({country: e.value});this.store.addArtists(e.value)}} placeholder="Select a Country"/>
+     <Dropdown value={this.state.country} options={this.state.countrySelectItems} onChange={(e) => {this.setState({country: e.value});this.store.addArtists(e.value)}} placeholder="Romania"/>
      </div>
      <br/>
      <br/>
