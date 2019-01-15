@@ -47,12 +47,12 @@ class GenreTrackList extends Component{
   return (
      <div className='divnou'>
       <div className="margin1">
-            <p id="para">Top tracks list by country</p>
+            <p id="para">Top tracks list by genre</p>
      <Dropdown value={this.state.genre} options={this.state.genres} onChange={(e) => {console.log(this.state.idUser);this.setState({genre: e.value});this.store.addGenreList(e.value);   this.store.emitter.addListener('GET_ALL_SUCCESS',()=>{
           this.setState({
               genreMusic:this.store.content
           })
-      })}} placeholder="pop"/></div>
+      })}} placeholder="Choose a genre"/></div>
       <br/>
       <br/>
       <GridList className='gridList' cols={4.5}>
