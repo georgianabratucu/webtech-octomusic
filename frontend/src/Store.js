@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {EventEmitter} from 'fbemitter'
 
-const SERVER='https://webtech-octomusic-bratucuiuliana.c9users.io'
+const SERVER='https://octomusic-georgianabrailoiu.c9users.io'
 
 class Store{
     constructor(){
@@ -122,14 +122,20 @@ class Store{
             this.emitter.emit('GET_ALL_ERROR')
         }
     }
+    
     async postAccount(user){
         axios.post(`${SERVER}/accounts`, user)
- .then(function (response) {
-alert('User successfully created!')
- })
+    .then(function (response) {
+     if(response.data.id ==null){
+         alert(response.data);
+     }else{
+        alert('User successfully created!');
+     }
+         
+     })
  .catch(function (error) {
  console.log(error);
-  alert('User could not be saved')
+ 
  });
     }
 }
